@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "beafi914sDLUp1wiRLn7K4/iP+/RQhFL5QBXJGj8FLGi6qGx1u/whlVmDz1+qkF+Z7hA9Jj5dSPIfjvK1gdOsQ==",
+  "dgSpecHash": "uqb0LIAKCTgqo//ciKOuWWba8fS9b3uKoFjlDx9PL+DqC+sbIm3G6kWB7FiHJ4fdxTvP8tjGvmnApZ+uz0XBEw==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj",
+  "projectFilePath": "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mkrze\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\mkrze\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
