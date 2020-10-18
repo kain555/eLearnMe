@@ -27,7 +27,6 @@ namespace API
         public Startup()
         {
         }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<eLearnDBContext>(options =>
