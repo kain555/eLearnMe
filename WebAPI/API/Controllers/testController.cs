@@ -1,7 +1,8 @@
 ﻿using API.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -16,9 +17,9 @@ namespace API.Controllers
             _context = context;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<TestTable>> GetTest()
+        public async Task<ActionResult<IEnumerable<TestTable>>> GetTest()
         {
-            return _context.TestTables.ToList();
+            return await _context.TestTables.ToListAsync();
         }
     }
 }
