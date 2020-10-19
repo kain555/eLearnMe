@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AnyARecord } from 'dns';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +8,10 @@ import { AnyARecord } from 'dns';
 })
 export class AppComponent implements OnInit{
 
-  users: any;
+  test: any;
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-
   }
 }
+
