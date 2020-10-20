@@ -9,12 +9,12 @@ namespace API.Model
     {
         public Profile()
         {
-            Szkolies = new HashSet<Szkoly>();
+            Szkoly = new HashSet<Szkoly>();
         }
 
         public int ProfilId { get; set; }
         public string Nazwa { get; set; }
 
-        public virtual ICollection<Szkoly> Szkolies { get; set; }
+        public virtual ICollection<Szkoly> Szkoly { get; set; }
     }
 }

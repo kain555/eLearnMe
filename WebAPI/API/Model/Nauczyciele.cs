@@ -9,7 +9,7 @@ namespace API.Model
     {
         public Nauczyciele()
         {
-            KlasyNauczycielis = new HashSet<KlasyNauczycieli>();
+            KlasyNauczycieli = new HashSet<KlasyNauczycieli>();
             WOcenas = new HashSet<WOcena>();
         }
 
@@ -28,7 +28,7 @@ namespace API.Model
         public int? KnId { get; set; }
         public bool? CzyDyr { get; set; }
 
-        public virtual ICollection<KlasyNauczycieli> KlasyNauczycielis { get; set; }
+        public virtual ICollection<KlasyNauczycieli> KlasyNauczycieli { get; set; }
         public virtual ICollection<WOcena> WOcenas { get; set; }
     }
 }

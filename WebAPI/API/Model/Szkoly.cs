@@ -9,7 +9,7 @@ namespace API.Model
     {
         public Szkoly()
         {
-            Uczens = new HashSet<Uczen>();
+            Uczen = new HashSet<Uczen>();
         }
 
         public int SzkolaId { get; set; }
@@ -20,6 +20,6 @@ namespace API.Model
         public int? DyrId { get; set; }
 
         public virtual Profile Profil { get; set; }
-        public virtual ICollection<Uczen> Uczens { get; set; }
+        public virtual ICollection<Uczen> Uczen { get; set; }
     }
 }

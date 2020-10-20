@@ -9,9 +9,9 @@ namespace API.Model
     {
         public Uczen()
         {
-            Rodzices = new HashSet<Rodzice>();
-            WOcenas = new HashSet<WOcena>();
-            ZrealizowaneEgzaminies = new HashSet<ZrealizowaneEgzaminy>();
+            Rodzice = new HashSet<Rodzice>();
+            WOcena = new HashSet<WOcena>();
+            ZrealizowaneEgzaminy = new HashSet<ZrealizowaneEgzaminy>();
         }
 
         public int UczenId { get; set; }
@@ -29,8 +29,8 @@ namespace API.Model
 
         public virtual Klasy Klasa { get; set; }
         public virtual Szkoly Szkola { get; set; }
-        public virtual ICollection<Rodzice> Rodzices { get; set; }
-        public virtual ICollection<WOcena> WOcenas { get; set; }
-        public virtual ICollection<ZrealizowaneEgzaminy> ZrealizowaneEgzaminies { get; set; }
+        public virtual ICollection<Rodzice> Rodzice { get; set; }
+        public virtual ICollection<WOcena> WOcena { get; set; }
+        public virtual ICollection<ZrealizowaneEgzaminy> ZrealizowaneEgzaminy { get; set; }
     }
 }

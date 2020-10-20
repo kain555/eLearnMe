@@ -9,12 +9,12 @@ namespace API.Model
     {
         public Egzaminy()
         {
-            ZrealizowaneEgzaminies = new HashSet<ZrealizowaneEgzaminy>();
+            ZrealizowaneEgzaminy = new HashSet<ZrealizowaneEgzaminy>();
         }
 
         public int EgzaminId { get; set; }
         public string Nazwa { get; set; }
 
-        public virtual ICollection<ZrealizowaneEgzaminy> ZrealizowaneEgzaminies { get; set; }
+        public virtual ICollection<ZrealizowaneEgzaminy> ZrealizowaneEgzaminy { get; set; }
     }
 }

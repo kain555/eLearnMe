@@ -64,9 +64,6 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "sslKey": "./ssl/server.key",
-            "sslCert": "./ssl/server.ctr",
-            "ssl": true,
             "browserTarget": "eLearnAPP:build"
           },
           "configurations": {

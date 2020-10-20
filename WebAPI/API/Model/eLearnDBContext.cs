@@ -24,20 +24,20 @@ namespace API.Model
             connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
-        public virtual DbSet<Egzaminy> Egzaminies { get; set; }
-        public virtual DbSet<Klasy> Klasies { get; set; }
-        public virtual DbSet<KlasyNauczycieli> KlasyNauczycielis { get; set; }
-        public virtual DbSet<Nauczyciele> Nauczycieles { get; set; }
-        public virtual DbSet<Oceny> Ocenies { get; set; }
-        public virtual DbSet<Profile> Profiles { get; set; }
-        public virtual DbSet<PrzedNauczycieli> PrzedNauczycielis { get; set; }
-        public virtual DbSet<Przedmioty> Przedmioties { get; set; }
-        public virtual DbSet<Rodzice> Rodzices { get; set; }
-        public virtual DbSet<Szkoly> Szkolies { get; set; }
-        public virtual DbSet<SzkolyNauczycieli> SzkolyNauczycielis { get; set; }
-        public virtual DbSet<Uczen> Uczens { get; set; }
-        public virtual DbSet<WOcena> WOcenas { get; set; }
-        public virtual DbSet<ZrealizowaneEgzaminy> ZrealizowaneEgzaminies { get; set; }
+        public virtual DbSet<Egzaminy> Egzaminie { get; set; }
+        public virtual DbSet<Klasy> Klasie { get; set; }
+        public virtual DbSet<KlasyNauczycieli> KlasyNauczycieli { get; set; }
+        public virtual DbSet<Nauczyciele> Nauczyciele { get; set; }
+        public virtual DbSet<Oceny> Oceny { get; set; }
+        public virtual DbSet<Profile> Profile { get; set; }
+        public virtual DbSet<PrzedNauczycieli> PrzedNauczycieli { get; set; }
+        public virtual DbSet<Przedmioty> Przedmioty { get; set; }
+        public virtual DbSet<Rodzice> Rodzice { get; set; }
+        public virtual DbSet<Szkoly> Szkoly { get; set; }
+        public virtual DbSet<SzkolyNauczycieli> SzkolyNauczycieli { get; set; }
+        public virtual DbSet<Uczen> Uczen { get; set; }
+        public virtual DbSet<WOcena> WOcena { get; set; }
+        public virtual DbSet<ZrealizowaneEgzaminy> ZrealizowaneEgzaminy { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -93,12 +93,12 @@ namespace API.Model
                 entity.Property(e => e.NauczycielId).HasColumnName("nauczyciel_id");
 
                 entity.HasOne(d => d.Klasa)
-                    .WithMany(p => p.KlasyNauczycielis)
+                    .WithMany(p => p.KlasyNauczycieli)
                     .HasForeignKey(d => d.KlasaId)
                     .HasConstraintName("FK_klasy_nauczycieli_Klasy");
 
                 entity.HasOne(d => d.Nauczyciel)
-                    .WithMany(p => p.KlasyNauczycielis)
+                    .WithMany(p => p.KlasyNauczycieli)
                     .HasForeignKey(d => d.NauczycielId)
                     .HasConstraintName("FK_klasy_nauczycieli_Nauczyciele");
             });
@@ -258,7 +258,7 @@ namespace API.Model
                     .HasColumnName("nazwisko");
 
                 entity.HasOne(d => d.Dziecko)
-                    .WithMany(p => p.Rodzices)
+                    .WithMany(p => p.Rodzice)
                     .HasForeignKey(d => d.DzieckoId)
                     .HasConstraintName("FK_rodzic_id_Uczen");
             });
@@ -289,7 +289,7 @@ namespace API.Model
                 entity.Property(e => e.ProfilId).HasColumnName("profil_id");
 
                 entity.HasOne(d => d.Profil)
-                    .WithMany(p => p.Szkolies)
+                    .WithMany(p => p.Szkoly)
                     .HasForeignKey(d => d.ProfilId)
                     .HasConstraintName("FK_szkoly_profile");
             });
@@ -364,7 +364,7 @@ namespace API.Model
                     .HasConstraintName("FK_Uczen_Klasy");
 
                 entity.HasOne(d => d.Szkola)
-                    .WithMany(p => p.Uczens)
+                    .WithMany(p => p.Uczen)
                     .HasForeignKey(d => d.SzkolaId)
                     .HasConstraintName("FK_Uczen_szkoly");
             });
@@ -396,17 +396,17 @@ namespace API.Model
                     .HasConstraintName("FK_w_ocena_Nauczyciele");
 
                 entity.HasOne(d => d.Ocena)
-                    .WithMany(p => p.WOcenas)
+                    .WithMany(p => p.WOcena)
                     .HasForeignKey(d => d.OcenaId)
                     .HasConstraintName("FK_w_ocena_Oceny");
 
                 entity.HasOne(d => d.Przedmiot)
-                    .WithMany(p => p.WOcenas)
+                    .WithMany(p => p.WOcena)
                     .HasForeignKey(d => d.PrzedmiotId)
                     .HasConstraintName("FK_w_ocena_przedmioty");
 
                 entity.HasOne(d => d.Uczen)
-                    .WithMany(p => p.WOcenas)
+                    .WithMany(p => p.WOcena)
                     .HasForeignKey(d => d.UczenId)
                     .HasConstraintName("FK_w_ocena_Uczen");
             });
@@ -429,12 +429,12 @@ namespace API.Model
                 entity.Property(e => e.UczenId).HasColumnName("uczen_id");
 
                 entity.HasOne(d => d.Egzamin)
-                    .WithMany(p => p.ZrealizowaneEgzaminies)
+                    .WithMany(p => p.ZrealizowaneEgzaminy)
                     .HasForeignKey(d => d.EgzaminId)
                     .HasConstraintName("FK_zrealizowane_egzaminy_egzaminy");
 
                 entity.HasOne(d => d.Uczen)
-                    .WithMany(p => p.ZrealizowaneEgzaminies)
+                    .WithMany(p => p.ZrealizowaneEgzaminy)
                     .HasForeignKey(d => d.UczenId)
                     .HasConstraintName("FK_zrealizowane_egzaminy_Uczen");
             });

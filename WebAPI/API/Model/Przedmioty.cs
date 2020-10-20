@@ -9,12 +9,12 @@ namespace API.Model
     {
         public Przedmioty()
         {
-            WOcenas = new HashSet<WOcena>();
+            WOcena = new HashSet<WOcena>();
         }
 
         public int PrzedmiotId { get; set; }
         public string Nazwa { get; set; }
 
-        public virtual ICollection<WOcena> WOcenas { get; set; }
+        public virtual ICollection<WOcena> WOcena { get; set; }
     }
 }

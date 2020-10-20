@@ -9,13 +9,13 @@ namespace API.Model
     {
         public Oceny()
         {
-            WOcenas = new HashSet<WOcena>();
+            WOcena = new HashSet<WOcena>();
         }
 
         public int OcenaId { get; set; }
         public string Nazwa { get; set; }
         public int? Wartosc { get; set; }
 
-        public virtual ICollection<WOcena> WOcenas { get; set; }
+        public virtual ICollection<WOcena> WOcena { get; set; }
     }
 }
