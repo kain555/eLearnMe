@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9HT8ZTKdBPt7hNx4BaTKdggDXHni5o/sigav0K6B4wooUNPku0rN7/fGFB1jzdzLplfalfdqXaI32ydqOCjKaw==",
+  "dgSpecHash": "1dazLAXdPbkNSgP8b3cdpwNiY7CrUJgkaQLEYmTZNapC4Kh+GAcYJBgx/SkNKAD3IX/DacyZu0z8wKc3dqp9/g==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj",
+  "projectFilePath": "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mkrze\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\mkrze\\.nuget\\packages\\linq2db\\3.1.5\\linq2db.3.1.5.nupkg.sha512",

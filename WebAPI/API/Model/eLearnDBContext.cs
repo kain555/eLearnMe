@@ -9,10 +9,12 @@ namespace API.Model
 {
     public partial class eLearnDBContext : DbContext
     {
+        private string connectionString;
+
         public eLearnDBContext()
         {
         }
-        private string connectionString;
+
         public eLearnDBContext(DbContextOptions<eLearnDBContext> options)
             : base(options)
         {
@@ -24,419 +26,469 @@ namespace API.Model
             connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
-        public virtual DbSet<Egzaminy> Egzaminie { get; set; }
-        public virtual DbSet<Klasy> Klasie { get; set; }
-        public virtual DbSet<KlasyNauczycieli> KlasyNauczycieli { get; set; }
-        public virtual DbSet<Nauczyciele> Nauczyciele { get; set; }
-        public virtual DbSet<Oceny> Oceny { get; set; }
-        public virtual DbSet<Profile> Profile { get; set; }
-        public virtual DbSet<PrzedNauczycieli> PrzedNauczycieli { get; set; }
-        public virtual DbSet<Przedmioty> Przedmioty { get; set; }
-        public virtual DbSet<Rodzice> Rodzice { get; set; }
-        public virtual DbSet<Szkoly> Szkoly { get; set; }
-        public virtual DbSet<SzkolyNauczycieli> SzkolyNauczycieli { get; set; }
-        public virtual DbSet<Uczen> Uczen { get; set; }
-        public virtual DbSet<WOcena> WOcena { get; set; }
-        public virtual DbSet<ZrealizowaneEgzaminy> ZrealizowaneEgzaminy { get; set; }
+        public virtual DbSet<Class> Classes { get; set; }
+        public virtual DbSet<CompletedExam> CompletedExams { get; set; }
+        public virtual DbSet<Disciple> Disciples { get; set; }
+        public virtual DbSet<Exam> Exams { get; set; }
+        public virtual DbSet<Grade> Grades { get; set; }
+        public virtual DbSet<GradesIssued> GradesIssueds { get; set; }
+        public virtual DbSet<NewDisciple> NewDisciples { get; set; }
+        public virtual DbSet<School> Schools { get; set; }
+        public virtual DbSet<SchoolProfile> SchoolProfiles { get; set; }
+        public virtual DbSet<SchoolsType> SchoolsTypes { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<Teacher> Teachers { get; set; }
+        public virtual DbSet<TeachersClass> TeachersClasses { get; set; }
+        public virtual DbSet<TeachersSchool> TeachersSchools { get; set; }
+        public virtual DbSet<TeachersSubject> TeachersSubjects { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(connectionString);
-                //optionsBuilder.UseSqlServer("Server=elearnapp.database.windows.net;Database=eLearnDB;user id=elearnAdmin;password=PASSWORD;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Egzaminy>(entity =>
+            modelBuilder.Entity<Class>(entity =>
             {
-                entity.HasKey(e => e.EgzaminId);
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
 
-                entity.ToTable("egzaminy");
-
-                entity.Property(e => e.EgzaminId).HasColumnName("egzamin_id");
-
-                entity.Property(e => e.Nazwa)
+                entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("nazwa");
+                    .HasColumnName("name");
+
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
             });
 
-            modelBuilder.Entity<Klasy>(entity =>
+            modelBuilder.Entity<CompletedExam>(entity =>
             {
-                entity.HasKey(e => e.KlasaId);
+                entity.HasKey(e => e.CeId);
 
-                entity.ToTable("Klasy");
+                entity.ToTable("Completed_exams");
 
-                entity.Property(e => e.KlasaId).HasColumnName("klasa_id");
+                entity.Property(e => e.CeId).HasColumnName("ce_id");
 
-                entity.Property(e => e.Nazwa)
-                    .HasMaxLength(50)
-                    .HasColumnName("nazwa");
-
-                entity.Property(e => e.SzkolaId).HasColumnName("szkola_id");
-            });
-
-            modelBuilder.Entity<KlasyNauczycieli>(entity =>
-            {
-                entity.HasKey(e => e.KnId);
-
-                entity.ToTable("klasy_nauczycieli");
-
-                entity.Property(e => e.KnId).HasColumnName("kn_id");
-
-                entity.Property(e => e.CzyWych).HasColumnName("czy_wych");
-
-                entity.Property(e => e.KlasaId).HasColumnName("klasa_id");
-
-                entity.Property(e => e.NauczycielId).HasColumnName("nauczyciel_id");
-
-                entity.HasOne(d => d.Klasa)
-                    .WithMany(p => p.KlasyNauczycieli)
-                    .HasForeignKey(d => d.KlasaId)
-                    .HasConstraintName("FK_klasy_nauczycieli_Klasy");
-
-                entity.HasOne(d => d.Nauczyciel)
-                    .WithMany(p => p.KlasyNauczycieli)
-                    .HasForeignKey(d => d.NauczycielId)
-                    .HasConstraintName("FK_klasy_nauczycieli_Nauczyciele");
-            });
-
-            modelBuilder.Entity<Nauczyciele>(entity =>
-            {
-                entity.HasKey(e => e.NauczycielId);
-
-                entity.ToTable("Nauczyciele");
-
-                entity.Property(e => e.NauczycielId).HasColumnName("nauczyciel_id");
-
-                entity.Property(e => e.Adres)
-                    .HasMaxLength(50)
-                    .HasColumnName("adres");
-
-                entity.Property(e => e.CzyDyr).HasColumnName("czy_dyr");
-
-                entity.Property(e => e.DataUrodzenia)
+                entity.Property(e => e.Date)
                     .HasColumnType("date")
-                    .HasColumnName("data_urodzenia")
+                    .HasColumnName("date")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.DiscipleId).HasColumnName("disciple_id");
+
+                entity.Property(e => e.ExamId).HasColumnName("exam_id");
+
+                entity.HasOne(d => d.Disciple)
+                    .WithMany(p => p.CompletedExams)
+                    .HasForeignKey(d => d.DiscipleId)
+                    .HasConstraintName("FK_Completed_exams_Disciples");
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.CompletedExams)
+                    .HasForeignKey(d => d.ExamId)
+                    .HasConstraintName("FK_Completed_exams_Exams");
+            });
+
+            modelBuilder.Entity<Disciple>(entity =>
+            {
+                entity.Property(e => e.DiscipleId).HasColumnName("disciple_id");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(50)
+                    .HasColumnName("address");
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(50)
+                    .HasColumnName("city");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.DateOfBirth)
+                    .HasColumnType("date")
+                    .HasColumnName("date_of_birth")
                     .HasAnnotation("Relational:ColumnType", "date");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .HasColumnName("email");
 
-                entity.Property(e => e.Imie)
+                entity.Property(e => e.Login)
                     .HasMaxLength(50)
-                    .HasColumnName("imie");
+                    .IsUnicode(false)
+                    .HasColumnName("login");
 
-                entity.Property(e => e.KnId).HasColumnName("kn_id");
-
-                entity.Property(e => e.KodPocztowy)
-                    .HasMaxLength(6)
-                    .HasColumnName("kod_pocztowy");
-
-                entity.Property(e => e.LoginId).HasColumnName("login_id");
-
-                entity.Property(e => e.Miasto)
+                entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("miasto");
+                    .HasColumnName("name");
 
-                entity.Property(e => e.Nazwisko)
-                    .HasMaxLength(50)
-                    .HasColumnName("nazwisko");
+                entity.Property(e => e.PasswordHash)
+                    .HasMaxLength(64)
+                    .HasColumnName("passwordHash")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.PasswordSalt)
+                    .HasMaxLength(64)
+                    .HasColumnName("passwordSalt")
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.Pesel).HasColumnName("pesel");
 
-                entity.Property(e => e.PrzedmiotId).HasColumnName("przedmiot_id");
+                entity.Property(e => e.PostalCode)
+                    .HasMaxLength(10)
+                    .HasColumnName("postal_code");
 
-                entity.Property(e => e.SzkolaId).HasColumnName("szkola_id");
-            });
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
 
-            modelBuilder.Entity<Oceny>(entity =>
-            {
-                entity.HasKey(e => e.OcenaId);
-
-                entity.ToTable("Oceny");
-
-                entity.Property(e => e.OcenaId).HasColumnName("ocena_id");
-
-                entity.Property(e => e.Nazwa)
-                    .HasMaxLength(20)
-                    .HasColumnName("nazwa");
-
-                entity.Property(e => e.Wartosc).HasColumnName("wartosc");
-            });
-
-            modelBuilder.Entity<Profile>(entity =>
-            {
-                entity.HasKey(e => e.ProfilId);
-
-                entity.ToTable("profile");
-
-                entity.Property(e => e.ProfilId).HasColumnName("profil_id");
-
-                entity.Property(e => e.Nazwa)
+                entity.Property(e => e.Surname)
                     .HasMaxLength(50)
-                    .HasColumnName("nazwa");
+                    .HasColumnName("surname");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.Disciples)
+                    .HasForeignKey(d => d.ClassId)
+                    .HasConstraintName("FK_Disciples_Classes");
+
+                entity.HasOne(d => d.School)
+                    .WithMany(p => p.Disciples)
+                    .HasForeignKey(d => d.SchoolId)
+                    .HasConstraintName("FK_Disciples_Schools");
             });
 
-            modelBuilder.Entity<PrzedNauczycieli>(entity =>
+            modelBuilder.Entity<Exam>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.ExamId).HasColumnName("exam_id");
 
-                entity.ToTable("przed_nauczycieli");
-
-                entity.Property(e => e.NauczycielId).HasColumnName("nauczyciel_id");
-
-                entity.Property(e => e.PrzedmiotId).HasColumnName("przedmiot_id");
-
-                entity.HasOne(d => d.Nauczyciel)
-                    .WithMany()
-                    .HasForeignKey(d => d.NauczycielId)
-                    .HasConstraintName("FK_przed_nauczycieli_Nauczyciele");
-
-                entity.HasOne(d => d.Przedmiot)
-                    .WithMany()
-                    .HasForeignKey(d => d.PrzedmiotId)
-                    .HasConstraintName("FK_przed_nauczycieli_przedmioty");
-            });
-
-            modelBuilder.Entity<Przedmioty>(entity =>
-            {
-                entity.HasKey(e => e.PrzedmiotId);
-
-                entity.ToTable("przedmioty");
-
-                entity.Property(e => e.PrzedmiotId).HasColumnName("przedmiot_id");
-
-                entity.Property(e => e.Nazwa)
+                entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("nazwa");
+                    .HasColumnName("name");
             });
 
-            modelBuilder.Entity<Rodzice>(entity =>
+            modelBuilder.Entity<Grade>(entity =>
             {
-                entity.HasKey(e => e.RodzicId)
-                    .HasName("PK_rodzic_id");
+                entity.Property(e => e.GradeId).HasColumnName("grade_id");
 
-                entity.ToTable("rodzice");
-
-                entity.Property(e => e.RodzicId).HasColumnName("rodzic_id");
-
-                entity.Property(e => e.Adres)
+                entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("adres");
+                    .HasColumnName("name");
 
-                entity.Property(e => e.DataUrodzenia)
+                entity.Property(e => e.Value).HasColumnName("value");
+            });
+
+            modelBuilder.Entity<GradesIssued>(entity =>
+            {
+                entity.HasKey(e => e.GiId);
+
+                entity.ToTable("Grades_Issued");
+
+                entity.Property(e => e.GiId).HasColumnName("gi_id");
+
+                entity.Property(e => e.DateIssued)
                     .HasColumnType("date")
-                    .HasColumnName("data_urodzenia")
+                    .HasColumnName("date_issued")
                     .HasAnnotation("Relational:ColumnType", "date");
 
-                entity.Property(e => e.DzieckoId).HasColumnName("dziecko_id");
+                entity.Property(e => e.DiscipleId).HasColumnName("disciple_id");
+
+                entity.Property(e => e.GradeId).HasColumnName("grade_id");
+
+                entity.Property(e => e.SubjectId).HasColumnName("subject_id");
+
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+                entity.HasOne(d => d.Disciple)
+                    .WithMany(p => p.GradesIssueds)
+                    .HasForeignKey(d => d.DiscipleId)
+                    .HasConstraintName("FK_Grades_Issued_Disciples");
+
+                entity.HasOne(d => d.Grade)
+                    .WithMany(p => p.GradesIssueds)
+                    .HasForeignKey(d => d.GradeId)
+                    .HasConstraintName("FK_Grades_Issued_grades");
+
+                entity.HasOne(d => d.Subject)
+                    .WithMany(p => p.GradesIssueds)
+                    .HasForeignKey(d => d.SubjectId)
+                    .HasConstraintName("FK_Grades_Issued_Subjects");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany(p => p.GradesIssueds)
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_Grades_Issued_Teachers");
+            });
+
+            modelBuilder.Entity<NewDisciple>(entity =>
+            {
+                entity.HasKey(e => e.NdId)
+                    .HasName("PK_new_disciples");
+
+                entity.ToTable("New_Disciples");
+
+                entity.Property(e => e.NdId).HasColumnName("nd_id");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(50)
+                    .HasColumnName("address");
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(50)
+                    .HasColumnName("city");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasColumnName("create_date")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.DateOfBirth)
+                    .HasMaxLength(50)
+                    .HasColumnName("date_of_birth");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .HasColumnName("email");
 
-                entity.Property(e => e.Imie)
+                entity.Property(e => e.Login)
                     .HasMaxLength(50)
-                    .HasColumnName("imie");
+                    .HasColumnName("login");
 
-                entity.Property(e => e.KodPocztowy)
-                    .HasMaxLength(6)
-                    .HasColumnName("kod_pocztowy");
-
-                entity.Property(e => e.LoginId).HasColumnName("login_id");
-
-                entity.Property(e => e.Miasto)
+                entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("miasto");
+                    .HasColumnName("name");
 
-                entity.Property(e => e.Nazwisko)
+                entity.Property(e => e.Pesel).HasColumnName("pesel");
+
+                entity.Property(e => e.PostalCode)
+                    .HasMaxLength(10)
+                    .HasColumnName("postal_code")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
+
+                entity.Property(e => e.Status)
                     .HasMaxLength(50)
-                    .HasColumnName("nazwisko");
+                    .HasColumnName("status");
 
-                entity.HasOne(d => d.Dziecko)
-                    .WithMany(p => p.Rodzice)
-                    .HasForeignKey(d => d.DzieckoId)
-                    .HasConstraintName("FK_rodzic_id_Uczen");
+                entity.Property(e => e.Surname)
+                    .HasMaxLength(50)
+                    .HasColumnName("surname");
+
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.NewDisciples)
+                    .HasForeignKey(d => d.ClassId)
+                    .HasConstraintName("FK_new_disciples_Classes");
+
+                entity.HasOne(d => d.School)
+                    .WithMany(p => p.NewDisciples)
+                    .HasForeignKey(d => d.SchoolId)
+                    .HasConstraintName("FK_new_disciples_Schools");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany(p => p.NewDisciples)
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_new_disciples_Teachers");
             });
 
-            modelBuilder.Entity<Szkoly>(entity =>
+            modelBuilder.Entity<School>(entity =>
             {
-                entity.HasKey(e => e.SzkolaId);
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
 
-                entity.ToTable("szkoly");
+                entity.Property(e => e.CreationDate)
+                    .HasColumnType("date")
+                    .HasColumnName("creation_date")
+                    .HasAnnotation("Relational:ColumnType", "date");
 
-                entity.Property(e => e.SzkolaId).HasColumnName("szkola_id");
-
-                entity.Property(e => e.DataZalozenia)
-                    .HasMaxLength(50)
-                    .HasColumnName("data_zalozenia");
-
-                entity.Property(e => e.DyrId).HasColumnName("dyr_id");
-
-                entity.Property(e => e.Nazwa)
-                    .HasMaxLength(50)
-                    .HasColumnName("nazwa");
-
-                entity.Property(e => e.Opis)
+                entity.Property(e => e.Description)
                     .HasColumnType("text")
-                    .HasColumnName("opis")
+                    .HasColumnName("description")
                     .HasAnnotation("Relational:ColumnType", "text");
 
-                entity.Property(e => e.ProfilId).HasColumnName("profil_id");
+                entity.Property(e => e.DirectorId).HasColumnName("director_id");
 
-                entity.HasOne(d => d.Profil)
-                    .WithMany(p => p.Szkoly)
-                    .HasForeignKey(d => d.ProfilId)
-                    .HasConstraintName("FK_szkoly_profile");
-            });
-
-            modelBuilder.Entity<SzkolyNauczycieli>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("szkoly_nauczycieli");
-
-                entity.Property(e => e.NauczycielId).HasColumnName("nauczyciel_id");
-
-                entity.Property(e => e.SzkolaId).HasColumnName("szkola_id");
-
-                entity.HasOne(d => d.Nauczyciel)
-                    .WithMany()
-                    .HasForeignKey(d => d.NauczycielId)
-                    .HasConstraintName("FK_szkoly_nauczycieli_Nauczyciele");
-
-                entity.HasOne(d => d.Szkola)
-                    .WithMany()
-                    .HasForeignKey(d => d.SzkolaId)
-                    .HasConstraintName("FK_szkoly_nauczycieli_szkoly");
-            });
-
-            modelBuilder.Entity<Uczen>(entity =>
-            {
-                entity.ToTable("Uczen");
-
-                entity.Property(e => e.UczenId).HasColumnName("uczen_id");
-
-                entity.Property(e => e.Adres)
+                entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("adres");
+                    .HasColumnName("name");
 
-                entity.Property(e => e.DataUrodzenia)
+                entity.Property(e => e.ProfileId).HasColumnName("profile_id");
+
+                entity.Property(e => e.TypeId).HasColumnName("type_id");
+
+                entity.HasOne(d => d.Director)
+                    .WithMany(p => p.Schools)
+                    .HasForeignKey(d => d.DirectorId)
+                    .HasConstraintName("FK_Schools_Teachers");
+
+                entity.HasOne(d => d.Profile)
+                    .WithMany(p => p.Schools)
+                    .HasForeignKey(d => d.ProfileId)
+                    .HasConstraintName("FK_Schools_School_Profiles");
+
+                entity.HasOne(d => d.Type)
+                    .WithMany(p => p.Schools)
+                    .HasForeignKey(d => d.TypeId)
+                    .HasConstraintName("FK_Schools_Schools_Types");
+            });
+
+            modelBuilder.Entity<SchoolProfile>(entity =>
+            {
+                entity.HasKey(e => e.ProfileId);
+
+                entity.ToTable("School_Profiles");
+
+                entity.Property(e => e.ProfileId).HasColumnName("profile_id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<SchoolsType>(entity =>
+            {
+                entity.HasKey(e => e.TypeId);
+
+                entity.ToTable("Schools_Types");
+
+                entity.Property(e => e.TypeId).HasColumnName("type_id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<Subject>(entity =>
+            {
+                entity.Property(e => e.SubjectId).HasColumnName("subject_id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(10)
+                    .HasColumnName("name")
+                    .IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<Teacher>(entity =>
+            {
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(50)
+                    .HasColumnName("address");
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(50)
+                    .HasColumnName("city");
+
+                entity.Property(e => e.DateOfBirth)
                     .HasColumnType("date")
-                    .HasColumnName("data_urodzenia")
+                    .HasColumnName("date_of_birth")
                     .HasAnnotation("Relational:ColumnType", "date");
 
-                entity.Property(e => e.Email)
+                entity.Property(e => e.Login)
                     .HasMaxLength(50)
-                    .HasColumnName("email");
+                    .HasColumnName("login");
 
-                entity.Property(e => e.Imie)
+                entity.Property(e => e.Name)
                     .HasMaxLength(50)
-                    .HasColumnName("imie");
+                    .IsUnicode(false)
+                    .HasColumnName("name");
 
-                entity.Property(e => e.KlasaId).HasColumnName("klasa_id");
+                entity.Property(e => e.PasswordHash)
+                    .HasMaxLength(64)
+                    .HasColumnName("passwordHash")
+                    .IsFixedLength(true);
 
-                entity.Property(e => e.KodPocztowy)
-                    .HasMaxLength(6)
-                    .HasColumnName("kod_pocztowy");
-
-                entity.Property(e => e.LoginId).HasColumnName("login_id");
-
-                entity.Property(e => e.Miasto)
-                    .HasMaxLength(50)
-                    .HasColumnName("miasto");
-
-                entity.Property(e => e.Nazwisko)
-                    .HasMaxLength(50)
-                    .HasColumnName("nazwisko");
+                entity.Property(e => e.PasswordSalt)
+                    .HasMaxLength(64)
+                    .HasColumnName("passwordSalt")
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.Pesel).HasColumnName("pesel");
 
-                entity.Property(e => e.SzkolaId).HasColumnName("szkola_id");
+                entity.Property(e => e.PostalCode)
+                    .HasMaxLength(10)
+                    .HasColumnName("postal_code");
 
-                entity.HasOne(d => d.Klasa)
-                    .WithMany(p => p.Uczens)
-                    .HasForeignKey(d => d.KlasaId)
-                    .HasConstraintName("FK_Uczen_Klasy");
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
 
-                entity.HasOne(d => d.Szkola)
-                    .WithMany(p => p.Uczen)
-                    .HasForeignKey(d => d.SzkolaId)
-                    .HasConstraintName("FK_Uczen_szkoly");
+                entity.Property(e => e.SubjectId).HasColumnName("subject_id");
+
+                entity.Property(e => e.Surname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("surname");
+
+                entity.Property(e => e.WhetherDirector).HasColumnName("whether_director");
             });
 
-            modelBuilder.Entity<WOcena>(entity =>
+            modelBuilder.Entity<TeachersClass>(entity =>
             {
-                entity.HasKey(e => e.WoId);
+                entity.HasKey(e => e.TcId)
+                    .HasName("PK_teachers_classes");
 
-                entity.ToTable("w_ocena");
+                entity.ToTable("Teachers_Classes");
 
-                entity.Property(e => e.WoId).HasColumnName("wo_id");
+                entity.Property(e => e.TcId).HasColumnName("tc_id");
 
-                entity.Property(e => e.DataWystawienia)
-                    .HasColumnType("date")
-                    .HasColumnName("data_wystawienia")
-                    .HasAnnotation("Relational:ColumnType", "date");
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
 
-                entity.Property(e => e.NauczycielId).HasColumnName("nauczyciel_id");
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
-                entity.Property(e => e.OcenaId).HasColumnName("ocena_id");
+                entity.Property(e => e.WhetherEducator).HasColumnName("whether_educator");
 
-                entity.Property(e => e.PrzedmiotId).HasColumnName("przedmiot_id");
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.TeachersClasses)
+                    .HasForeignKey(d => d.ClassId)
+                    .HasConstraintName("FK_teachers_classes_Classes");
 
-                entity.Property(e => e.UczenId).HasColumnName("uczen_id");
-
-                entity.HasOne(d => d.Nauczyciel)
-                    .WithMany(p => p.WOcenas)
-                    .HasForeignKey(d => d.NauczycielId)
-                    .HasConstraintName("FK_w_ocena_Nauczyciele");
-
-                entity.HasOne(d => d.Ocena)
-                    .WithMany(p => p.WOcena)
-                    .HasForeignKey(d => d.OcenaId)
-                    .HasConstraintName("FK_w_ocena_Oceny");
-
-                entity.HasOne(d => d.Przedmiot)
-                    .WithMany(p => p.WOcena)
-                    .HasForeignKey(d => d.PrzedmiotId)
-                    .HasConstraintName("FK_w_ocena_przedmioty");
-
-                entity.HasOne(d => d.Uczen)
-                    .WithMany(p => p.WOcena)
-                    .HasForeignKey(d => d.UczenId)
-                    .HasConstraintName("FK_w_ocena_Uczen");
+                entity.HasOne(d => d.Teacher)
+                    .WithMany(p => p.TeachersClasses)
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_teachers_classes_Teachers");
             });
 
-            modelBuilder.Entity<ZrealizowaneEgzaminy>(entity =>
+            modelBuilder.Entity<TeachersSchool>(entity =>
             {
-                entity.HasKey(e => e.EzId);
+                entity.HasNoKey();
 
-                entity.ToTable("zrealizowane_egzaminy");
+                entity.ToTable("Teachers_Schools");
 
-                entity.Property(e => e.EzId).HasColumnName("ez_id");
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
 
-                entity.Property(e => e.Data)
-                    .HasColumnType("date")
-                    .HasColumnName("data")
-                    .HasAnnotation("Relational:ColumnType", "date");
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
-                entity.Property(e => e.EgzaminId).HasColumnName("egzamin_id");
+                entity.HasOne(d => d.School)
+                    .WithMany()
+                    .HasForeignKey(d => d.SchoolId)
+                    .HasConstraintName("FK_teachers_schools_Schools");
 
-                entity.Property(e => e.UczenId).HasColumnName("uczen_id");
+                entity.HasOne(d => d.Teacher)
+                    .WithMany()
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_teachers_schools_Teachers");
+            });
 
-                entity.HasOne(d => d.Egzamin)
-                    .WithMany(p => p.ZrealizowaneEgzaminy)
-                    .HasForeignKey(d => d.EgzaminId)
-                    .HasConstraintName("FK_zrealizowane_egzaminy_egzaminy");
+            modelBuilder.Entity<TeachersSubject>(entity =>
+            {
+                entity.HasNoKey();
 
-                entity.HasOne(d => d.Uczen)
-                    .WithMany(p => p.ZrealizowaneEgzaminy)
-                    .HasForeignKey(d => d.UczenId)
-                    .HasConstraintName("FK_zrealizowane_egzaminy_Uczen");
+                entity.ToTable("Teachers_Subjects");
+
+                entity.Property(e => e.SubjectId).HasColumnName("subject_id");
+
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+                entity.HasOne(d => d.Subject)
+                    .WithMany()
+                    .HasForeignKey(d => d.SubjectId)
+                    .HasConstraintName("FK_Teachers_Subjects_Subjects");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany()
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_Teachers_Subjects_Teachers");
             });
 
             OnModelCreatingPartial(modelBuilder);

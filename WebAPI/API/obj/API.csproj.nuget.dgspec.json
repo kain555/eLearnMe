@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj": {}
+    "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj": {
+    "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj",
+        "projectUniqueName": "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj",
+        "projectPath": "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj",
         "packagesPath": "C:\\Users\\mkrze\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\eLearnMe\\WebAPI\\API\\obj\\",
+        "outputPath": "C:\\Projects\\eLearnMe\\WebAPI\\api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -90,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100-rc.1.20452.10\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100-rc.2.20479.15\\RuntimeIdentifierGraph.json"
         }
       }
     }
