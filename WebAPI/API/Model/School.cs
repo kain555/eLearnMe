@@ -11,6 +11,7 @@ namespace API.Model
         {
             Disciples = new HashSet<Disciple>();
             NewDisciples = new HashSet<NewDisciple>();
+            Teachers = new HashSet<Teacher>();
         }
 
         public int SchoolId { get; set; }
@@ -21,10 +22,10 @@ namespace API.Model
         public string Description { get; set; }
         public int? DirectorId { get; set; }
 
-        public virtual Teacher Director { get; set; }
         public virtual SchoolProfile Profile { get; set; }
         public virtual SchoolsType Type { get; set; }
         public virtual ICollection<Disciple> Disciples { get; set; }
         public virtual ICollection<NewDisciple> NewDisciples { get; set; }
+        public virtual ICollection<Teacher> Teachers { get; set; }
     }
 }

@@ -10,7 +10,6 @@ namespace API.Model
     public partial class eLearnDBContext : DbContext
     {
         private string connectionString;
-
         public eLearnDBContext()
         {
         }
@@ -33,6 +32,7 @@ namespace API.Model
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<GradesIssued> GradesIssueds { get; set; }
         public virtual DbSet<NewDisciple> NewDisciples { get; set; }
+        public virtual DbSet<RegisterDisciple> RegisterDisciples { get; set; }
         public virtual DbSet<School> Schools { get; set; }
         public virtual DbSet<SchoolProfile> SchoolProfiles { get; set; }
         public virtual DbSet<SchoolsType> SchoolsTypes { get; set; }
@@ -133,7 +133,9 @@ namespace API.Model
                     .HasColumnName("passwordSalt")
                     .IsFixedLength(true);
 
-                entity.Property(e => e.Pesel).HasColumnName("pesel");
+                entity.Property(e => e.Pesel)
+                    .HasMaxLength(12)
+                    .HasColumnName("pesel");
 
                 entity.Property(e => e.PostalCode)
                     .HasMaxLength(10)
@@ -227,6 +229,8 @@ namespace API.Model
 
                 entity.Property(e => e.NdId).HasColumnName("nd_id");
 
+                entity.Property(e => e.Active).HasColumnName("active");
+
                 entity.Property(e => e.Address)
                     .HasMaxLength(50)
                     .HasColumnName("address");
@@ -258,7 +262,19 @@ namespace API.Model
                     .HasMaxLength(50)
                     .HasColumnName("name");
 
-                entity.Property(e => e.Pesel).HasColumnName("pesel");
+                entity.Property(e => e.PasswordHash)
+                    .HasMaxLength(64)
+                    .HasColumnName("passwordHASH")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.PasswordSalt)
+                    .HasMaxLength(64)
+                    .HasColumnName("passwordSALT")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Pesel)
+                    .HasMaxLength(12)
+                    .HasColumnName("pesel");
 
                 entity.Property(e => e.PostalCode)
                     .HasMaxLength(10)
@@ -266,10 +282,6 @@ namespace API.Model
                     .IsFixedLength(true);
 
                 entity.Property(e => e.SchoolId).HasColumnName("school_id");
-
-                entity.Property(e => e.Status)
-                    .HasMaxLength(50)
-                    .HasColumnName("status");
 
                 entity.Property(e => e.Surname)
                     .HasMaxLength(50)
@@ -280,17 +292,62 @@ namespace API.Model
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.NewDisciples)
                     .HasForeignKey(d => d.ClassId)
-                    .HasConstraintName("FK_new_disciples_Classes");
+                    .HasConstraintName("FK_New_Disciples_Classes");
 
                 entity.HasOne(d => d.School)
                     .WithMany(p => p.NewDisciples)
                     .HasForeignKey(d => d.SchoolId)
-                    .HasConstraintName("FK_new_disciples_Schools");
+                    .HasConstraintName("FK_New_Disciples_Schools");
 
                 entity.HasOne(d => d.Teacher)
                     .WithMany(p => p.NewDisciples)
                     .HasForeignKey(d => d.TeacherId)
-                    .HasConstraintName("FK_new_disciples_Teachers");
+                    .HasConstraintName("FK_New_Disciples_Teachers");
+            });
+
+            modelBuilder.Entity<RegisterDisciple>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.Date)
+                    .HasColumnType("date")
+                    .HasColumnName("date")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.NdId).HasColumnName("nd_id");
+
+                entity.Property(e => e.RegisterDId).HasColumnName("registerD_id");
+
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
+
+                entity.Property(e => e.StatusId)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("status_id");
+
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany()
+                    .HasForeignKey(d => d.ClassId)
+                    .HasConstraintName("FK_RegisterDisciples_Classes");
+
+                entity.HasOne(d => d.Nd)
+                    .WithMany()
+                    .HasForeignKey(d => d.NdId)
+                    .HasConstraintName("FK_RegisterDisciples_New_Disciples");
+
+                entity.HasOne(d => d.School)
+                    .WithMany()
+                    .HasForeignKey(d => d.SchoolId)
+                    .HasConstraintName("FK_RegisterDisciples_Schools");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany()
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_RegisterDisciples_Teachers");
             });
 
             modelBuilder.Entity<School>(entity =>
@@ -316,11 +373,6 @@ namespace API.Model
                 entity.Property(e => e.ProfileId).HasColumnName("profile_id");
 
                 entity.Property(e => e.TypeId).HasColumnName("type_id");
-
-                entity.HasOne(d => d.Director)
-                    .WithMany(p => p.Schools)
-                    .HasForeignKey(d => d.DirectorId)
-                    .HasConstraintName("FK_Schools_Teachers");
 
                 entity.HasOne(d => d.Profile)
                     .WithMany(p => p.Schools)
@@ -405,7 +457,9 @@ namespace API.Model
                     .HasColumnName("passwordSalt")
                     .IsFixedLength(true);
 
-                entity.Property(e => e.Pesel).HasColumnName("pesel");
+                entity.Property(e => e.Pesel)
+                    .HasMaxLength(12)
+                    .HasColumnName("pesel");
 
                 entity.Property(e => e.PostalCode)
                     .HasMaxLength(10)
@@ -421,6 +475,11 @@ namespace API.Model
                     .HasColumnName("surname");
 
                 entity.Property(e => e.WhetherDirector).HasColumnName("whether_director");
+
+                entity.HasOne(d => d.School)
+                    .WithMany(p => p.Teachers)
+                    .HasForeignKey(d => d.SchoolId)
+                    .HasConstraintName("FK_Teachers_Schools");
             });
 
             modelBuilder.Entity<TeachersClass>(entity =>

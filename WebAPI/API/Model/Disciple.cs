@@ -20,7 +20,7 @@ namespace API.Model
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public int? Pesel { get; set; }
+        public string Pesel { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
