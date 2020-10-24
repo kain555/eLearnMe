@@ -12,7 +12,7 @@ namespace API.Model
         public int? DiscipleId { get; set; }
         public DateTime? Date { get; set; }
 
-        public virtual Disciple Disciple { get; set; }
+        public virtual NewDisciple Disciple { get; set; }
         public virtual Exam Exam { get; set; }
     }
 }

@@ -83,7 +83,7 @@ namespace API.Model
                 entity.HasOne(d => d.Disciple)
                     .WithMany(p => p.CompletedExams)
                     .HasForeignKey(d => d.DiscipleId)
-                    .HasConstraintName("FK_Completed_exams_Disciples");
+                    .HasConstraintName("FK_Completed_exams_New_Disciples");
 
                 entity.HasOne(d => d.Exam)
                     .WithMany(p => p.CompletedExams)
@@ -146,16 +146,6 @@ namespace API.Model
                 entity.Property(e => e.Surname)
                     .HasMaxLength(50)
                     .HasColumnName("surname");
-
-                entity.HasOne(d => d.Class)
-                    .WithMany(p => p.Disciples)
-                    .HasForeignKey(d => d.ClassId)
-                    .HasConstraintName("FK_Disciples_Classes");
-
-                entity.HasOne(d => d.School)
-                    .WithMany(p => p.Disciples)
-                    .HasForeignKey(d => d.SchoolId)
-                    .HasConstraintName("FK_Disciples_Schools");
             });
 
             modelBuilder.Entity<Exam>(entity =>
@@ -202,7 +192,7 @@ namespace API.Model
                 entity.HasOne(d => d.Disciple)
                     .WithMany(p => p.GradesIssueds)
                     .HasForeignKey(d => d.DiscipleId)
-                    .HasConstraintName("FK_Grades_Issued_Disciples");
+                    .HasConstraintName("FK_Grades_Issued_New_Disciples");
 
                 entity.HasOne(d => d.Grade)
                     .WithMany(p => p.GradesIssueds)
@@ -263,12 +253,12 @@ namespace API.Model
                     .HasColumnName("name");
 
                 entity.Property(e => e.PasswordHash)
-                    .HasMaxLength(64)
+                    .HasMaxLength(128)
                     .HasColumnName("passwordHASH")
                     .IsFixedLength(true);
 
                 entity.Property(e => e.PasswordSalt)
-                    .HasMaxLength(64)
+                    .HasMaxLength(128)
                     .HasColumnName("passwordSALT")
                     .IsFixedLength(true);
 

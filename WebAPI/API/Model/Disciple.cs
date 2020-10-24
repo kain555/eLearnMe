@@ -7,12 +7,6 @@ namespace API.Model
 {
     public partial class Disciple
     {
-        public Disciple()
-        {
-            CompletedExams = new HashSet<CompletedExam>();
-            GradesIssueds = new HashSet<GradesIssued>();
-        }
-
         public int DiscipleId { get; set; }
         public string Login { get; set; }
         public byte[] PasswordHash { get; set; }
@@ -27,10 +21,5 @@ namespace API.Model
         public string City { get; set; }
         public int? ClassId { get; set; }
         public int? SchoolId { get; set; }
-
-        public virtual Class Class { get; set; }
-        public virtual School School { get; set; }
-        public virtual ICollection<CompletedExam> CompletedExams { get; set; }
-        public virtual ICollection<GradesIssued> GradesIssueds { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using API.DTOs;
+using API.Interfaces;
 using API.Model;
 using LinqToDB;
 using Microsoft.AspNetCore.Http;
@@ -18,13 +19,16 @@ namespace API.Controllers
     public class accountController : baseController
     {
         public readonly eLearnDBContext _context;
-        public accountController(eLearnDBContext context)
+        private readonly ITokenService _tokenService;
+
+        public accountController(eLearnDBContext context, ITokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         [HttpPost("newDisciple")]
-        public async Task<ActionResult<NewDisciple>> NewDisciple(RegisterDTO registerDTO)
+        public async Task<ActionResult<DiscipleDTO>> NewDisciple(RegisterDTO registerDTO)
         {
             using var hmac = new HMACSHA512();
 
@@ -51,11 +55,15 @@ namespace API.Controllers
             _context.NewDisciples.Add(newD);
             await _context.SaveChangesAsync();
 
-            return newD;
+            return new DiscipleDTO
+            {
+                Login = newD.Login,
+                Token = _tokenService.CreateToken(newD)
+            };
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<NewDisciple>> Login(LoginDTO loginDTO)
+        public async Task<ActionResult<DiscipleDTO>> Login(LoginDTO loginDTO)
         {
             var user = await _context.NewDisciples.SingleOrDefaultAsync(x => x.Login == loginDTO.Login);
             if (user == null) return Unauthorized("Invalid username");
@@ -68,7 +76,11 @@ namespace API.Controllers
             {
                 if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
             }
-            return user;
+            return new DiscipleDTO
+            {
+                Login = user.Login,
+                Token = _tokenService.CreateToken(user)
+            };
         }
         private async Task<bool> UserExists(string username)
         {

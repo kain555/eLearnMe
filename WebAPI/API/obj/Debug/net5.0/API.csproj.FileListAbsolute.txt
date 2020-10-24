@@ -39,7 +39,6 @@ C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\Microsoft.IdentityModel.Logging
 C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
 C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
-C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\System.Configuration.ConfigurationManager.dll
 C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\System.Runtime.Caching.dll
@@ -58,3 +57,4 @@ C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0
 C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\linq2db.dll
 C:\Projects\eLearnMe\WebAPI\API\obj\Debug\net5.0\scopedcss\bundle\API.styles.css
+C:\Projects\eLearnMe\WebAPI\API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
