@@ -25,6 +25,7 @@ namespace API.Model
             connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
+        public virtual DbSet<AllLogin> AllLogins { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<CompletedExam> CompletedExams { get; set; }
         public virtual DbSet<Disciple> Disciples { get; set; }
@@ -52,8 +53,18 @@ namespace API.Model
             }
         }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AllLogin>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("AllLogins");
+
+                entity.Property(e => e.Login).HasMaxLength(50);
+            });
+
             modelBuilder.Entity<Class>(entity =>
             {
                 entity.Property(e => e.ClassId).HasColumnName("class_id");
