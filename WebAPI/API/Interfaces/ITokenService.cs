@@ -8,6 +8,7 @@ namespace API.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(NewDisciple disciple);
+        string CreateTokenDisciple(Disciple disciple);
+        string CreateTokenTeacher(Teacher teacher);
     }
 }

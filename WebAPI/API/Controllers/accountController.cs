@@ -2,15 +2,8 @@
 using API.Interfaces;
 using API.Model;
 using LinqToDB;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,13 +21,13 @@ namespace API.Controllers
         }
 
         [HttpPost("newDisciple")]
-        public async Task<ActionResult<DiscipleDTO>> NewDisciple(RegisterDTO registerDTO)
+        public async Task<ActionResult<TokenDTO>> NewDisciple(RegisterDiscipleDTO registerDTO)
         {
             using var hmac = new HMACSHA512();
 
             if (await UserExists(registerDTO.Login)) return BadRequest("Username is taken");
 
-            var newD = new NewDisciple
+            var newD = new Disciple
             {
                 TeacherId = registerDTO.TeacherId,
                 CreateDate = registerDTO.CreateDate,
@@ -50,41 +43,96 @@ namespace API.Controllers
                 Address = registerDTO.Address,
                 PostalCode = registerDTO.PostalCode,
                 City = registerDTO.City,
-                ClassId = registerDTO.ClassId
+                ClassId = registerDTO.ClassId,
+                Active = false
             };
-            _context.NewDisciples.Add(newD);
+            _context.Disciples.Add(newD);
             await _context.SaveChangesAsync();
 
-            return new DiscipleDTO
+            return new TokenDTO
             {
                 Login = newD.Login,
-                Token = _tokenService.CreateToken(newD)
+                Token = _tokenService.CreateTokenDisciple(newD)
+            };
+        }
+
+        [HttpPost("newTeacher")]
+        public async Task<ActionResult<TokenDTO>> NewTeacher(RegisterTeacherDTO teacherDTO)
+        {
+            using var hmac = new HMACSHA512();
+
+            if (await UserExists(teacherDTO.Login)) return BadRequest("Username is taken");
+
+            var teacher = new Teacher
+            {
+                Login = teacherDTO.Login,
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(teacherDTO.Password)),
+                PasswordSalt = hmac.Key,
+                Name = teacherDTO.Name,
+                Surname = teacherDTO.Surname,
+                DateOfBirth = teacherDTO.DateOfBirth,
+                Pesel = teacherDTO.Pesel,
+                Address = teacherDTO.Address,
+                PostalCode = teacherDTO.PostalCode,
+                City = teacherDTO.City,
+                WhetherDirector = teacherDTO.whether_director,
+                SubjectId = teacherDTO.subject_id
+            };
+            _context.Teachers.Add(teacher);
+            await _context.SaveChangesAsync();
+
+            return new TokenDTO
+            {
+                Login = teacher.Login,
+                Token = _tokenService.CreateTokenTeacher(teacher)
             };
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<DiscipleDTO>> Login(LoginDTO loginDTO)
+        public async Task<ActionResult<TokenDTO>> Login(LoginDTO loginDTO)
         {
-            var user = await _context.NewDisciples.SingleOrDefaultAsync(x => x.Login == loginDTO.Login);
-            if (user == null) return Unauthorized("Invalid username");
-
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
-
-            for(int i=0;i < computedHash.Length; i++)
+            var user = await _context.Disciples.SingleOrDefaultAsync(x => x.Login == loginDTO.Login);
+            if (user != null)
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+                using var hmac = new HMACSHA512(user.PasswordSalt);
+
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
+
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+                }
+                return new TokenDTO
+                {
+                    Login = user.Login,
+                    Token = _tokenService.CreateTokenDisciple(user)
+                };
             }
-            return new DiscipleDTO
+            else if (user == null)
             {
-                Login = user.Login,
-                Token = _tokenService.CreateToken(user)
-            };
+                var teacher = await _context.Teachers.SingleOrDefaultAsync(x => x.Login == loginDTO.Login);
+                if (teacher != null)
+                {
+                    using var hmac = new HMACSHA512(teacher.PasswordSalt);
+
+                    var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
+
+                    for (int i = 0; i < computedHash.Length; i++)
+                    {
+                        if (computedHash[i] != teacher.PasswordHash[i]) return Unauthorized("Invalid Password");
+                    }
+                    return new TokenDTO
+                    {
+                        Login = teacher.Login,
+                        Token = _tokenService.CreateTokenTeacher(teacher)
+                    };
+                }
+            }
+            return Unauthorized("Invalid username");
         }
         private async Task<bool> UserExists(string username)
         {
-            return await _context.NewDisciples.AnyAsync(x => x.Login == username.ToLower());
+            return await _context.Disciples.AnyAsync(x => x.Login == username.ToLower());
         }
     }
 }

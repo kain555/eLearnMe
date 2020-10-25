@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace API.DTOs
 {
-    public class RegisterDTO
+    public class RegisterDiscipleDTO
     {
         [Required]
         public int TeacherId { get; set; }

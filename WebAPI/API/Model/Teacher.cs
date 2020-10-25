@@ -9,9 +9,10 @@ namespace API.Model
     {
         public Teacher()
         {
+            Disciples = new HashSet<Disciple>();
             GradesIssueds = new HashSet<GradesIssued>();
-            NewDisciples = new HashSet<NewDisciple>();
             TeachersClasses = new HashSet<TeachersClass>();
+            TimeTables = new HashSet<TimeTable>();
         }
 
         public int TeacherId { get; set; }
@@ -26,12 +27,11 @@ namespace API.Model
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
-        public int? SchoolId { get; set; }
         public bool? WhetherDirector { get; set; }
 
-        public virtual School School { get; set; }
+        public virtual ICollection<Disciple> Disciples { get; set; }
         public virtual ICollection<GradesIssued> GradesIssueds { get; set; }
-        public virtual ICollection<NewDisciple> NewDisciples { get; set; }
         public virtual ICollection<TeachersClass> TeachersClasses { get; set; }
+        public virtual ICollection<TimeTable> TimeTables { get; set; }
     }
 }

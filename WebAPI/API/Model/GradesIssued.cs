@@ -14,7 +14,7 @@ namespace API.Model
         public int? SubjectId { get; set; }
         public int? GradeId { get; set; }
 
-        public virtual NewDisciple Disciple { get; set; }
+        public virtual Disciple Disciple { get; set; }
         public virtual Grade Grade { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual Teacher Teacher { get; set; }

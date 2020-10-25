@@ -19,16 +19,16 @@ namespace API.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<NewDisciple>>> GetDisciple()
+        public async Task<ActionResult<IEnumerable<Disciple>>> GetDisciple()
         {
-            return await _context.NewDisciples.ToListAsync();
+            return await _context.Disciples.ToListAsync();
         }
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<NewDisciple>> GetDisciple(int id)
+        public async Task<ActionResult<Disciple>> GetDisciple(int id)
         {
-            return await _context.NewDisciples.FindAsync(id);
+            return await _context.Disciples.FindAsync(id);
         }
     }
 }

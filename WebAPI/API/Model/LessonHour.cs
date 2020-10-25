@@ -5,18 +5,16 @@ using System.Collections.Generic;
 
 namespace API.Model
 {
-    public partial class Subject
+    public partial class LessonHour
     {
-        public Subject()
+        public LessonHour()
         {
-            GradesIssueds = new HashSet<GradesIssued>();
             TimeTables = new HashSet<TimeTable>();
         }
 
-        public int SubjectId { get; set; }
+        public int LessonHourId { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<GradesIssued> GradesIssueds { get; set; }
         public virtual ICollection<TimeTable> TimeTables { get; set; }
     }
 }

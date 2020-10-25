@@ -9,8 +9,9 @@ namespace API.Model
     {
         public School()
         {
-            NewDisciples = new HashSet<NewDisciple>();
-            Teachers = new HashSet<Teacher>();
+            Disciples = new HashSet<Disciple>();
+            Rooms = new HashSet<Room>();
+            TimeTables = new HashSet<TimeTable>();
         }
 
         public int SchoolId { get; set; }
@@ -19,11 +20,11 @@ namespace API.Model
         public int? TypeId { get; set; }
         public int? ProfileId { get; set; }
         public string Description { get; set; }
-        public int? DirectorId { get; set; }
 
         public virtual SchoolProfile Profile { get; set; }
         public virtual SchoolsType Type { get; set; }
-        public virtual ICollection<NewDisciple> NewDisciples { get; set; }
-        public virtual ICollection<Teacher> Teachers { get; set; }
+        public virtual ICollection<Disciple> Disciples { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
+        public virtual ICollection<TimeTable> TimeTables { get; set; }
     }
 }

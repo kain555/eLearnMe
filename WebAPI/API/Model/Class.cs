@@ -9,15 +9,17 @@ namespace API.Model
     {
         public Class()
         {
-            NewDisciples = new HashSet<NewDisciple>();
+            Disciples = new HashSet<Disciple>();
             TeachersClasses = new HashSet<TeachersClass>();
+            TimeTables = new HashSet<TimeTable>();
         }
 
         public int ClassId { get; set; }
         public string Name { get; set; }
         public int? SchoolId { get; set; }
 
-        public virtual ICollection<NewDisciple> NewDisciples { get; set; }
+        public virtual ICollection<Disciple> Disciples { get; set; }
         public virtual ICollection<TeachersClass> TeachersClasses { get; set; }
+        public virtual ICollection<TimeTable> TimeTables { get; set; }
     }
 }
