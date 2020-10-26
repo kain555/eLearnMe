@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj": {}
+    "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj": {
+    "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj",
+        "projectUniqueName": "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Projects\\eLearnMe\\WebAPI\\api\\API.csproj",
+        "projectPath": "C:\\Projects\\eLearnMe\\WebAPI\\API\\API.csproj",
         "packagesPath": "C:\\Users\\mkrze\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\eLearnMe\\WebAPI\\api\\obj\\",
+        "outputPath": "C:\\Projects\\eLearnMe\\WebAPI\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

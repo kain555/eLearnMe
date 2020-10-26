@@ -3,6 +3,8 @@ using API.Interfaces;
 using API.Model;
 using LinqToDB;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,39 +23,44 @@ namespace API.Controllers
         }
 
         [HttpPost("newDisciple")]
-        public async Task<ActionResult<TokenDTO>> NewDisciple(RegisterDiscipleDTO registerDTO)
+        public async Task<ActionResult<List<Disciple>>> NewDisciple(List<RegisterDiscipleDTO> registerDTO)
         {
             using var hmac = new HMACSHA512();
-
-            if (await UserExists(registerDTO.Login)) return BadRequest("Username is taken");
-
-            var newD = new Disciple
+            List<Disciple> disciples = new List<Disciple>();
+            for (int i = 0; i < registerDTO.Count; i++)
             {
-                TeacherId = registerDTO.TeacherId,
-                CreateDate = registerDTO.CreateDate,
-                SchoolId = registerDTO.SchoolId,
-                Login = registerDTO.Login.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
-                PasswordSalt = hmac.Key,
-                Name = registerDTO.Name,
-                Surname = registerDTO.Surname,
-                DateOfBirth = registerDTO.DateOfBirth,
-                Pesel = registerDTO.Pesel,
-                Email = registerDTO.Email,
-                Address = registerDTO.Address,
-                PostalCode = registerDTO.PostalCode,
-                City = registerDTO.City,
-                ClassId = registerDTO.ClassId,
-                Active = false
-            };
-            _context.Disciples.Add(newD);
-            await _context.SaveChangesAsync();
+                if (await UserExists(registerDTO[i].Login)) return BadRequest("Username is taken " + registerDTO[i].Login);
 
-            return new TokenDTO
-            {
-                Login = newD.Login,
-                Token = _tokenService.CreateTokenDisciple(newD)
-            };
+                var newD = new Disciple
+                {
+                    TeacherId = registerDTO[i].TeacherId,
+                    CreateDate = registerDTO[i].CreateDate,
+                    SchoolId = registerDTO[i].SchoolId,
+                    Login = registerDTO[i].Login.ToLower(),
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO[i].Password)),
+                    PasswordSalt = hmac.Key,
+                    Name = registerDTO[i].Name,
+                    Surname = registerDTO[i].Surname,
+                    DateOfBirth = registerDTO[i].DateOfBirth,
+                    Pesel = registerDTO[i].Pesel,
+                    Email = registerDTO[i].Email,
+                    Address = registerDTO[i].Address,
+                    PostalCode = registerDTO[i].PostalCode,
+                    City = registerDTO[i].City,
+                    ClassId = registerDTO[i].ClassId,
+                    Active = false
+                };
+                _context.Disciples.Add(newD);
+                await _context.SaveChangesAsync();
+
+                disciples.Add(newD);
+                //return new TokenDTO
+                //{
+                //    Login = newD.Login,
+                //    Token = _tokenService.CreateTokenDisciple(newD)
+                //};
+            }
+            return disciples;
         }
 
         [HttpPost("newTeacher")]
