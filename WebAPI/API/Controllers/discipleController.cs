@@ -30,5 +30,30 @@ namespace API.Controllers
         {
             return await _context.Disciples.FindAsync(id);
         }
+
+        [HttpPost("registerDisciple")]
+        public async Task<ActionResult<RegisterDisciple>> registerDisciple(RegisterDisciple registerDisciple)
+        {
+            if (await DiscipleExists(registerDisciple.NdId)) return BadRequest("Disciple process is running");
+
+            var regDisciple = new RegisterDisciple
+            {
+                NdId = registerDisciple.NdId,
+                Date = registerDisciple.Date,
+                SchoolId = registerDisciple.SchoolId,
+                TeacherId = registerDisciple.TeacherId,
+                ClassId = registerDisciple.ClassId,
+                Status = "Proces rejestracji uruchomiony przez nauczyciela, czeka na akceptacje dyrektora"
+            };
+            _context.RegisterDisciples.Add(regDisciple);
+            await _context.SaveChangesAsync();
+
+            return registerDisciple;
+        }
+
+        private async Task<bool> DiscipleExists(int? nd)
+        {
+            return await _context.Disciples.AnyAsync(x => x.NdId == nd);
+        }
     }
 }

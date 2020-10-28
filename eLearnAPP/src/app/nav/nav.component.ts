@@ -10,7 +10,7 @@ import { AccountService } from '../_services/account.service';
 export class NavComponent implements OnInit {
   model: any = {}
   loggedIn: boolean;
-
+  checked: boolean = true;
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
