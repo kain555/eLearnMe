@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -8,6 +9,7 @@ namespace API.Model
 {
     public partial class eLearnDBContext : DbContext
     {
+        private string connectionString;
         public eLearnDBContext()
         {
         }
@@ -15,6 +17,11 @@ namespace API.Model
         public eLearnDBContext(DbContextOptions<eLearnDBContext> options)
             : base(options)
         {
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonFile("appsettings.json", optional: false);
+            var configuration = builder.Build();
+
+            connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
         public virtual DbSet<AllLogin> AllLogins { get; set; }
@@ -41,8 +48,7 @@ namespace API.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=elearnapp.database.windows.net;Database=eLearnDB;user id=elearnAdmin;password=ADlearn123!;");
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 
