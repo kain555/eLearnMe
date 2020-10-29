@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 /***************************************************************************************************
  * Load `$localize` onto the global scope - used if i18n tags appear in Angular templates.
  */
 import '@angular/localize/init';
-=======
->>>>>>> parent of d475446... Up1
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -42,11 +39,7 @@ import '@angular/localize/init';
  * will put import in the top of bundle, so user need to create a separate file
  * in this directory (for example: zone-flags.ts), and put the following flags
  * into that file, and then add the following code before importing zone.js.
-<<<<<<< HEAD
  * import './zone-flags.ts';
-=======
- * import './zone-flags';
->>>>>>> parent of d475446... Up1
  *
  * The flags allowed in zone-flags.ts are listed here.
  *
@@ -72,8 +65,5 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-<<<<<<< HEAD
 
 (window as any).global = window;
-=======
->>>>>>> parent of d475446... Up1

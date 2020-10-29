@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of d475446... Up1
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
