@@ -10,7 +10,11 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
+<<<<<<< HEAD
     expect(page.getTitleText()).toEqual('Welcome to angularlight!');
+=======
+    expect(page.getTitleText()).toEqual('eLearnAPP app is running!');
+>>>>>>> parent of d475446... Up1
   });
 
   afterEach(async () => {

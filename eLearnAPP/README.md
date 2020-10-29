@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 # Angularlight
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
+=======
+# ELearnAPP
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
+>>>>>>> parent of d475446... Up1
 
 ## Development server
 
