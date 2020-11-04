@@ -11,7 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxGaugeModule } from 'ngx-gauge';
 @NgModule({
-  declarations: [MainComponent],
+  declarations: [],
   imports: [
     CommonModule,
     DashboardRoutingModule,

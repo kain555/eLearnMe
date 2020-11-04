@@ -24,10 +24,13 @@ namespace API.Model
             connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
+
+        public virtual DbSet<AllDiscipleGrade> AllDiscipleGrades { get; set; }
         public virtual DbSet<AllLogin> AllLogins { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<CompletedExam> CompletedExams { get; set; }
         public virtual DbSet<Disciple> Disciples { get; set; }
+        public virtual DbSet<DiscipleGradesAll> DiscipleGradesAlls { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<GradesIssued> GradesIssueds { get; set; }
@@ -54,6 +57,39 @@ namespace API.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AllDiscipleGrade>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("AllDiscipleGrades");
+
+                entity.Property(e => e.DiscipleName).HasMaxLength(50);
+
+                entity.Property(e => e.DiscipleSurname).HasMaxLength(50);
+
+                entity.Property(e => e.GName)
+                    .HasMaxLength(50)
+                    .HasColumnName("gName");
+
+                entity.Property(e => e.GValue).HasColumnName("gValue");
+
+                entity.Property(e => e.GiDate)
+                    .HasColumnType("date")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Subject).HasMaxLength(25);
+
+                entity.Property(e => e.TeacherName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TeacherSurname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<AllLogin>(entity =>
             {
                 entity.HasNoKey();
@@ -185,6 +221,37 @@ namespace API.Model
                     .WithMany(p => p.Disciples)
                     .HasForeignKey(d => d.TeacherId)
                     .HasConstraintName("FK_New_Disciples_Teachers");
+            });
+
+            modelBuilder.Entity<DiscipleGradesAll>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("DiscipleGradesAll");
+
+                entity.Property(e => e.DiscipleName).HasMaxLength(50);
+
+                entity.Property(e => e.DiscipleSurname).HasMaxLength(50);
+
+                entity.Property(e => e.GName)
+                    .HasMaxLength(50)
+                    .HasColumnName("gName");
+
+                entity.Property(e => e.GValue).HasColumnName("gValue");
+
+                entity.Property(e => e.GiDate)
+                    .HasColumnType("date")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.Subject).HasMaxLength(25);
+
+                entity.Property(e => e.TeacherName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TeacherSurname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Exam>(entity =>

@@ -55,5 +55,6 @@ namespace API.Controllers
         {
             return await _context.Disciples.AnyAsync(x => x.NdId == nd);
         }
+
     }
 }

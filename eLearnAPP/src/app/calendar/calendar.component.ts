@@ -227,7 +227,7 @@ export class CalendarComponent implements OnInit {
     let className: string;
 
     if (category === "work")
-      className = "fc-event-success"
+      className = "fc-event-important"
     else if (category === "personal")
       className = "fc-event-warning"
     else if (category === "important")
@@ -246,7 +246,7 @@ export class CalendarComponent implements OnInit {
         title: "All Day Event",
         start: new Date(year, month, 1, 0, 0),
         end: new Date(year, month, 1, 23, 59),
-        className: "fc-event-success",
+        className: "fc-event-important",
         groupId: "work",
         details:
           "Her extensive perceived may any sincerity extremity. Indeed add rather may pretty see.",
@@ -257,7 +257,7 @@ export class CalendarComponent implements OnInit {
         start: new Date(year, month, day + 28, 16, 0),
         end: new Date(year, month, day + 29, 20, 0),
         allDay: false,
-        className: "fc-event-primary",
+        className: "fc-event-important",
         groupId: "important",
         details:
           "Her extensive perceived may any sincerity extremity. Indeed add rather may pretty see. ",
