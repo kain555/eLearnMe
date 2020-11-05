@@ -16,11 +16,12 @@ const document: any = window.document;
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.sass'],
+  styleUrls: ['./header.component.sass']
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   public config: any = {};
   isNavbarCollapsed = true;
+  datenow: any;
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -76,6 +77,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ];
   ngOnInit() {
     this.config = this.configService.configData;
+    this.datenow = new Date();
   }
   ngAfterViewInit() {
     // set theme on startup

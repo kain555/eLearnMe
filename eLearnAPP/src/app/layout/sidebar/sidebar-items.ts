@@ -85,7 +85,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: '/email/inbox',
-        title: 'Inbox',
+        title: 'Skrzynka odbiorcza',
         moduleName: 'email',
         iconType: '',
         icon: '',
@@ -97,7 +97,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: '/email/compose',
-        title: 'Compose',
+        title: 'Skrzynka nadawcza',
         moduleName: 'email',
         iconType: '',
         icon: '',
@@ -109,7 +109,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: '/email/read-mail',
-        title: 'Read Email',
+        title: 'Elementy usunięte',
         moduleName: 'email',
         iconType: '',
         icon: '',
@@ -119,6 +119,43 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: '',
         submenu: [],
       },
+    ],
+  },
+  {
+    path: '',
+    title: 'Egzaminy',
+    moduleName: 'exams',
+    iconType: 'material-icons-two-tone',
+    icon: 'rule',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '',
+    badgeClass: 'badge bg-orange sidebar-badge float-right',
+    submenu: [
+      {
+        path: '/exams/inbox',
+        title: 'Ukończone',
+        moduleName: 'exams',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: '/exams/compose',
+        title: 'Przyszłe',
+        moduleName: 'exams',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      }
     ],
   },
   // {

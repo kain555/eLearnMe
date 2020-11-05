@@ -18,13 +18,19 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<List<AllDiscipleGrade>> dgTEST(int id) {
-
+        [HttpGet("GradesByD")]
+        public async Task<List<AllDiscipleGrade>> GradesByD(int id) 
+        {
             var returnGrades = await _context.AllDiscipleGrades.Where(s => s.Id == id).ToListAsync();
-        
             return returnGrades.ToList();
         }
 
-}
+        [HttpGet("GradesByDS")]
+        public async Task<List<AllDiscipleGrade>> GradesByDS(int id, string subject)
+        {
+            var returnGrades = await _context.AllDiscipleGrades.Where(s => s.Id == id & s.Subject == subject).ToListAsync();
+            return returnGrades.ToList();
+        }
+
+    }
 }
