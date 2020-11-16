@@ -12,6 +12,7 @@ namespace API.Model
         public int? ClassId { get; set; }
         public int? SchoolId { get; set; }
         public string DayOfWeek { get; set; }
+        public int? DayOfWeekId { get; set; }
         public int? LessonHourId { get; set; }
         public int? RoomId { get; set; }
         public int? TeacherId { get; set; }

@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { GetTTByDisciple } from '../../../models/IGetTTByDisciple';
+import { DataService } from '../../../services/data.service';
 import {
   ApexTitleSubtitle,
   ApexMarkers,
@@ -17,6 +19,8 @@ import {
   ApexResponsive,
 } from 'ng-apexcharts';
 import { dataSeries } from './chartdata';
+import { Observable } from 'rxjs';
+import { date } from 'ngx-custom-validators/src/app/date/validator';
 export type chartOptions = {
   series: ApexAxisChartSeries;
   series2: ApexNonAxisChartSeries;
@@ -47,6 +51,10 @@ export class MainComponent implements OnInit {
   public circleChartOptions: Partial<chartOptions>;
   public pieChartOptions: Partial<chartOptions>;
 
+  
+  displayedColumns: string[] = ['Przedmiot', 'Godzina lekcyjna', 'Imię nauczyciela', 'Klasa'];
+  dataSource: any;
+
   gaugeType = 'arch';
   gaugeValue = 48;
   gaugeSize = 170;
@@ -67,7 +75,7 @@ export class MainComponent implements OnInit {
     75.5: { color: 'red' },
   };
 
-  constructor() {
+  constructor(private getService: DataService) {
     this.chart1();
     this.chart2();
     this.smallChart();
@@ -305,5 +313,13 @@ export class MainComponent implements OnInit {
       ],
     };
   }
-  ngOnInit() {}
+  ngOnInit() {
+
+    var now = new Date();
+    var day = now.getDay();
+   this.getService.getTTbyDisciple(8, day).subscribe(x => {
+     this.dataSource = x;
+    console.log(this.dataSource);
+   });
+  }
 }

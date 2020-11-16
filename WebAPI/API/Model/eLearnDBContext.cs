@@ -24,7 +24,6 @@ namespace API.Model
             connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
-
         public virtual DbSet<AllDiscipleGrade> AllDiscipleGrades { get; set; }
         public virtual DbSet<AllLogin> AllLogins { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
@@ -32,6 +31,7 @@ namespace API.Model
         public virtual DbSet<Disciple> Disciples { get; set; }
         public virtual DbSet<DiscipleGradesAll> DiscipleGradesAlls { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
+        public virtual DbSet<GetTtbyDiscipleId> GetTtbyDiscipleIds { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<GradesIssued> GradesIssueds { get; set; }
         public virtual DbSet<LessonHour> LessonHours { get; set; }
@@ -54,6 +54,7 @@ namespace API.Model
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -261,6 +262,33 @@ namespace API.Model
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<GetTtbyDiscipleId>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("getTTbyDiscipleID");
+
+                entity.Property(e => e.ClassName).HasMaxLength(50);
+
+                entity.Property(e => e.DayOfWeek).HasMaxLength(20);
+
+                entity.Property(e => e.DayOfWeekId).HasColumnName("DayOfWeekID");
+
+                entity.Property(e => e.DiscipleId).HasColumnName("DiscipleID");
+
+                entity.Property(e => e.LessonHour).HasMaxLength(20);
+
+                entity.Property(e => e.Subject).HasMaxLength(25);
+
+                entity.Property(e => e.TeacherName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TeacherSurname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Grade>(entity =>
@@ -587,6 +615,8 @@ namespace API.Model
                 entity.Property(e => e.DayOfWeek)
                     .HasMaxLength(20)
                     .HasColumnName("day_of_week");
+
+                entity.Property(e => e.DayOfWeekId).HasColumnName("day_of_week_id");
 
                 entity.Property(e => e.LessonHourId).HasColumnName("lesson_hour_id");
 
