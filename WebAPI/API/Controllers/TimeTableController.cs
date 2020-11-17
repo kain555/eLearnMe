@@ -17,9 +17,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<GetTimeTableData>> GetTimeTableData(int classId, int day)
+        public async Task<List<GetTimeTableData>> GetTimeTableData(int classId, int day, int schoolId)
         {
-            var returnTTByDisciple = await _context.GetTimeTableData.Where(s => s.DayOfWeekId == day && s.ClassId == classId).ToArrayAsync();
+            var returnTTByDisciple = await _context.GetTimeTableData.Where(s => s.DayOfWeekId == day && s.ClassId == classId && s.SchoolId == schoolId).ToArrayAsync();
             return returnTTByDisciple.ToList();
         }
     }

@@ -12,7 +12,7 @@ export class TimeTableService {
 
   constructor(private http: HttpClient) { }
 
-  public getTTbyDisciple (disciple_id: number, day: number ): Observable<GetTTByDisciple>{
-    return this.http.get<GetTTByDisciple>(this.apiUrl + 'TimeTable?disciple_id=' + disciple_id + '&day=' + day);
+  public getTTbyDisciple (classId: number, day: number, schoolId: number): Observable<GetTTByDisciple>{
+    return this.http.get<GetTTByDisciple>(this.apiUrl + 'TimeTable?classId=' + classId + '&day=' + day + '&schoolId=' + schoolId);
   }
 }

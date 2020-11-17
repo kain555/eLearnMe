@@ -17,8 +17,8 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     var now = new Date();
     var day = now.getDay();
-   this.ttService.getTTbyDisciple(5, day).subscribe(x => {
-     this.dataSource = x;
+    this.ttService.getTTbyDisciple(1, day, 1).subscribe(x => {
+    this.dataSource = x;
     console.log(this.dataSource);
    });
   }
