@@ -19,7 +19,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<List<GetTtbyDiscipleId>> GetTTbyDisciple(int disciple_id, int day)
         {
-            var returnTTByDisciple = await _context.GetTtbyDiscipleIds.Where(s => s.DayOfWeekId == day && s.DiscipleId == disciple_id).ToListAsync();
+            var returnTTByDisciple = await _context.GetTtbyDiscipleIds.Where(s => s.DayOfWeekId == day && s.DiscipleId == disciple_id).ToArrayAsync();
             return returnTTByDisciple.ToList();
         }
     }

@@ -1,0 +1,57 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header mt-n3">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="font-weight-bold">Cześć, miło cię widzieć ponownie!</h4>
+              <h4 class="font-weight-normal mb-0">Gotowy na naukę, Piotrze Kowalski?</h4>
+              <br>
+              <h4 class="font-weight-normal mb-0">Sprawdź twój dzisiejszy plan lekcji, wyświetla się poniżej</h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef> Przedmiot </th>
+      <td mat-cell *matCellDef="let element"> {{element.subject}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="lessonHour">
+      <th mat-header-cell *matHeaderCellDef> Godzina lekcyjna </th>
+      <td mat-cell *matCellDef="let element"> {{element.lessonHour}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="teacherName">
+      <th mat-header-cell *matHeaderCellDef> Imię nauczyciela </th>
+      <td mat-cell *matCellDef="let element"> {{element.teacherName}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="teacherSurname">
+      <th mat-header-cell *matHeaderCellDef> Nazwisko nauczyciela </th>
+      <td mat-cell *matCellDef="let element"> {{element.teacherSurname}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="className">
+      <th mat-header-cell *matHeaderCellDef> Klasa </th>
+      <td mat-cell *matCellDef="let element"> {{element.className}} </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="join">
+      <th mat-header-cell *matHeaderCellDef> Dołącz do lekcji</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="warn">Dołącz</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</section>
+
