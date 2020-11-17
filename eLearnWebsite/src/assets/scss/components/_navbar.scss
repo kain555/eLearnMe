@@ -277,11 +277,12 @@
   border-radius: 3px;
 }
 .navbar-brand {
+  transform: translateY(-10px);
   float: left;
-  height: 45px;
-  padding: 6px 25px;
+  height: 60px;
+  padding: 0px 1px;
   font-size: 18px;
-  line-height: 20px;
+  line-height: 1px;
   text-align: center;
   width: 100%;
   img {
@@ -289,7 +290,7 @@
     vertical-align: top;
   }
   span {
-    line-height: 32px;
+    line-height: 1px;
     padding-left: 10px;
   }
 }

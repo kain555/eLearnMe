@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
+import { TimeTableService } from 'src/services/time-table.service';
 const document: any = window.document;
 
 @Component({
@@ -21,7 +22,11 @@ const document: any = window.document;
 export class HeaderComponent implements OnInit, AfterViewInit {
   public config: any = {};
   isNavbarCollapsed = true;
+
+  schoolName: string;
+
   constructor(
+    private ttService: TimeTableService,
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     public elementRef: ElementRef,
@@ -76,6 +81,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ];
   ngOnInit() {
     this.config = this.configService.configData;
+    this.ttService.getSchool(1).subscribe(x => {
+      this.schoolName = x.name;
+    })
   }
   ngAfterViewInit() {
     // set theme on startup

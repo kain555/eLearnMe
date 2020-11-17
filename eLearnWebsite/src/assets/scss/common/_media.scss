@@ -87,6 +87,33 @@
     }
   }
 
+  .centerHeader {
+    float: left;
+    width: 60%;
+    min-height: 60px;
+    padding-top: 15px;
+    margin-left: 100px;
+  }
+
+  .schoolName {
+    float: left;
+    font-size: 35px;
+    padding-top: 10px;
+    padding-left: 30px;
+  }
+  .luckyNumber {
+    float: left;
+    font-size: 15px;
+    padding-top: 23px;
+    padding-left: 50px;
+  }
+  .dayAndLucky {
+    margin-top: 5px;
+    font-size: 15px;
+    float: left;
+    padding-top: 15px;
+    margin-left: 50px;
+  }
   .container-fluid > {
     .navbar-header {
       margin-right: 0;
