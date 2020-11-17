@@ -31,6 +31,7 @@ namespace API.Model
         public virtual DbSet<Disciple> Disciples { get; set; }
         public virtual DbSet<DiscipleGradesAll> DiscipleGradesAlls { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
+        public virtual DbSet<GetTimeTableData> GetTimeTableData { get; set; }
         public virtual DbSet<GetTtbyDiscipleId> GetTtbyDiscipleIds { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<GradesIssued> GradesIssueds { get; set; }
@@ -262,6 +263,57 @@ namespace API.Model
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<GetTimeTableData>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("getTimeTableData");
+
+                entity.Property(e => e.ClassId).HasColumnName("classId");
+
+                entity.Property(e => e.ClassName)
+                    .HasMaxLength(50)
+                    .HasColumnName("className");
+
+                entity.Property(e => e.DayOfWeek)
+                    .HasMaxLength(20)
+                    .HasColumnName("dayOfWeek");
+
+                entity.Property(e => e.DayOfWeekId).HasColumnName("dayOfWeekId");
+
+                entity.Property(e => e.LessonHour)
+                    .HasMaxLength(20)
+                    .HasColumnName("lessonHour");
+
+                entity.Property(e => e.LessonHourId).HasColumnName("lessonHourId");
+
+                entity.Property(e => e.RoomName)
+                    .HasMaxLength(50)
+                    .HasColumnName("roomName");
+
+                entity.Property(e => e.SchoolId).HasColumnName("schoolId");
+
+                entity.Property(e => e.SchoolName)
+                    .HasMaxLength(50)
+                    .HasColumnName("schoolName");
+
+                entity.Property(e => e.Subject)
+                    .HasMaxLength(25)
+                    .HasColumnName("subject");
+
+                entity.Property(e => e.TeacheId).HasColumnName("teacheId");
+
+                entity.Property(e => e.TeacherName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("teacherName");
+
+                entity.Property(e => e.TeacherSurname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("teacherSurname");
             });
 
             modelBuilder.Entity<GetTtbyDiscipleId>(entity =>
