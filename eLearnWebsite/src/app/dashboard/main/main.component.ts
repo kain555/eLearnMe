@@ -8,15 +8,16 @@ import { TimeTableService } from '../../../services/time-table.service'
 })
 export class MainComponent implements OnInit {
 
-  displayedColumns: string[] = ['subject', 'lessonHour', 'teacherName', 'teacherSurname', 'className', 'join']
+  displayedColumns: string[] = ['subject', 'lessonHour', 'teacherName', 'roomName', 'join']
   dataSource: any;
+  currDate: Date;
 
   constructor(private ttService: TimeTableService) {
   }
 
   ngOnInit() {
-    var now = new Date();
-    var day = now.getDay();
+    this.currDate = new Date();
+    var day = this.currDate.getDay();
     this.ttService.getTTbyDisciple(1, day, 1).subscribe(x => {
     this.dataSource = x;
     console.log(this.dataSource);

@@ -1,6 +1,9 @@
 <section class="content">
-
-  Tu będzie tabela z ocenami 
-
-  
+Oto twoje oceny:
+<br>
+<ul>
+  <li *ngFor="let subjectName of subjects">
+    <app-google [subjectName] = "subjectName"></app-google>
+  </li>
+</ul>
 </section>

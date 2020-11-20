@@ -23,6 +23,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { GoogleComponent } from '../maps/google/google.component';
 
 @NgModule({
   imports: [

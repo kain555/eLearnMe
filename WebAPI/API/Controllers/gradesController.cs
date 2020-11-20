@@ -28,7 +28,7 @@ namespace API.Controllers
         [HttpGet("GradesByDS")]
         public async Task<List<AllDiscipleGrade>> GradesByDS(int id, string subject)
         {
-            var returnGrades = await _context.AllDiscipleGrades.Where(s => s.Id == id & s.Subject == subject).ToListAsync();
+            var returnGrades = await _context.AllDiscipleGrades.Where(s => s.Id == id && s.Subject == subject).ToListAsync();
             return returnGrades.ToList();
         }
 

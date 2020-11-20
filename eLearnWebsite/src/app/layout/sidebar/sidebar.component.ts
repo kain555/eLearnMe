@@ -10,12 +10,16 @@ import {
 } from '@angular/core';
 import { ROUTES } from './sidebar-items';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { date } from 'ngx-custom-validators/src/app/date/validator';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.sass'],
 })
 export class SidebarComponent implements OnInit {
+  minutes: string;
+  currDate: Date;
+  dayOfWeek: string;
   public sidebarItems: any[];
   showMenu = 'dashboard';
   showSubMenu = '';
@@ -79,6 +83,10 @@ export class SidebarComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.currDate = new Date();
+    var day = this.currDate.getDay();
+    this.leadingZero(this.currDate.getMinutes());
+    this.getDayOfWeek(day);
     this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
@@ -118,5 +126,37 @@ export class SidebarComponent implements OnInit {
       this.renderer.removeClass(this.document.body, 'side-closed-hover');
       this.renderer.addClass(this.document.body, 'submenu-closed');
     }
+  }
+
+   leadingZero(i: number) {
+    if (i < 10) {
+      this.minutes = "0" + i.toString();
+     } 
+     else 
+     this.minutes = i.toString();
+}
+
+  getDayOfWeek(dayOfWeek: number) {
+    if(dayOfWeek === 0){
+      this.dayOfWeek = "Niedziela"
+    }
+    else if (dayOfWeek === 1) {
+      this.dayOfWeek = "Poniedziałek"
+    }
+    else if (dayOfWeek === 2) {
+     this.dayOfWeek = "Wtorek"
+   }
+   else if (dayOfWeek === 3) {
+     this.dayOfWeek = "Środa"
+   }
+   else if (dayOfWeek === 4) {
+     this.dayOfWeek = "Czwartek"
+   }
+   else if (dayOfWeek === 5) {
+     this.dayOfWeek = "Piątek"
+   }
+   else if (dayOfWeek === 6) {
+     this.dayOfWeek = "Sobota"
+   }
   }
 }
