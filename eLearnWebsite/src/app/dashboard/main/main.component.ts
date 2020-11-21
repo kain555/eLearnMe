@@ -11,6 +11,8 @@ export class MainComponent implements OnInit {
   displayedColumns: string[] = ['subject', 'lessonHour', 'teacherName', 'roomName', 'join']
   dataSource: any;
   currDate: Date;
+  showTT = false;
+  showWeekend = false;
 
   constructor(private ttService: TimeTableService) {
   }
@@ -19,8 +21,13 @@ export class MainComponent implements OnInit {
     this.currDate = new Date();
     var day = this.currDate.getDay();
     this.ttService.getTTbyDisciple(1, day, 1).subscribe(x => {
+    if(day === 5 || 6){
+      this.showWeekend = true;
+      this.showTT = false;
+    }
+    else
+    this.showTT = true;
     this.dataSource = x;
-    console.log(this.dataSource);
    });
   }
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TimeTableService } from 'src/services/time-table.service';
 
 @Component({
   selector: 'app-task',
@@ -10,10 +9,9 @@ export class TaskComponent implements OnInit {
 
   subjects: string[] = ["Język Polski", "Matematyka", "W-F", "Język Angielski", "Biologia", "Chemia", "Fizyka", "Muzyka", "Plastyka"];
 
-  constructor() 
+  constructor()
   {}
   
   ngOnInit(): void {
-    
   }
 }

@@ -53,6 +53,6 @@ import { GoogleComponent } from '../maps/google/google.component';
     DragDropModule,
     MaterialFileInputModule,
   ],
-  declarations: [TaskComponent],
+  declarations: [TaskComponent, GoogleComponent],
 })
 export class TaskModule {}

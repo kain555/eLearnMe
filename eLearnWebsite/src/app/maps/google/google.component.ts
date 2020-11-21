@@ -8,7 +8,7 @@ import { TimeTableService } from 'src/services/time-table.service';
 })
 export class GoogleComponent {
   @Input() subjectName: string;
-  discipleId = 1;
+  discipleId = 3;
   gradesDiscipleObject: Array<any>;
   gradesArray: any;
   avg: number;
@@ -24,12 +24,14 @@ export class GoogleComponent {
         this.gradesArray = ["Brak ocen z tego przedmiotu"];
         this.avg = 0;
       }
-      else
-      for( var i = 0; i < result.length; i++ ){
+      else if (result.length > 0){
+        for( var i = 0; i < result.length; i++ ){
           this.sum += parseInt( result[i], 10 );
-      }
+        }
       this.avg = this.sum/result.length;
       this.gradesArray = result;
+      }
+      
     })
   }
 

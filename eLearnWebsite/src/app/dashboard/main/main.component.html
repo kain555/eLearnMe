@@ -15,6 +15,12 @@
       </div>
     </div>
   </div>
+  <div *ngIf="showWeekend" class="weekendInfo">
+    Dziś jest weekend, na szczęście nie ma dziś lekcji
+    <br>
+    Ale pouczyć zawsze jest warto
+  </div>
+  <div *ngIf="showTT" class="timeTable">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="subject">
       <th mat-header-cell *matHeaderCellDef> Przedmiot </th>
@@ -47,4 +53,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+</div>
 </section>
