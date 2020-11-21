@@ -28,4 +28,8 @@ export class TimeTableService {
   public getGradesByDisciple (id: number, subject: string): Observable<any>{
     return this.http.get<any>(this.apiUrl + 'grades/GradesByDS?id=' + id + '&subject=' + subject);
   }
+
+  public getTeachersBySchool (schoolId: number): Observable<any>{
+    return this.http.get<any>(this.apiUrl + 'teachers?schoolId=' + schoolId);
+  }
 }

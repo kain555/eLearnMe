@@ -13,6 +13,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormComponent } from './form/form.component';
 import { DeleteComponent } from './delete/delete.component';
+import { TimeTableService } from 'src/services/time-table.service';
 
 @Component({
   selector: 'app-contacts',
@@ -31,6 +32,13 @@ export class ContactsComponent implements OnInit {
     'address',
     'actions',
   ];
+  displayedColumns1 = [
+    'teacher',
+    'className',
+    'subjectName',
+    'email',
+    'director'
+  ];
   exampleDatabase: ContactsService | null;
   dataSource: ExampleDataSource | null;
   selection = new SelectionModel<Contacts>(true, []);
@@ -40,7 +48,8 @@ export class ContactsComponent implements OnInit {
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public contactsService: ContactsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private service: TimeTableService
   ) { }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -48,9 +57,14 @@ export class ContactsComponent implements OnInit {
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
-
+  schoolID = 1;
+  dataSource1: any;
   ngOnInit() {
     this.loadData();
+    this.service.getTeachersBySchool(this.schoolID).subscribe(x => {
+      this.dataSource1 = x;
+      console.log(x);
+    })
   }
   refresh() {
     this.loadData();

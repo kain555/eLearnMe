@@ -110,9 +110,9 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: 'task',
+    path: 'tables',
     title: 'Egzaminy',
-    moduleName: 'task',
+    moduleName: 'tables',
     iconType: 'material-icons-two-tone',
     icon: 'fact_check',
     class: '',
@@ -134,9 +134,9 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
-    path: 'contacts',
+    path: 'forms',
     title: 'Komunikaty szkolne',
-    moduleName: 'contacts',
+    moduleName: 'forms',
     iconType: 'material-icons-two-tone',
     icon: 'message',
     class: '',
@@ -157,16 +157,4 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: '',
     submenu: [],
   },
-  {
-    path: 'contacts',
-    title: 'E-Biblioteka',
-    moduleName: 'contacts',
-    iconType: 'material-icons-two-tone',
-    icon: 'menu_book',
-    class: '',
-    groupTitle: false,
-    badge: '',
-    badgeClass: '',
-    submenu: [],
-  }
 ];

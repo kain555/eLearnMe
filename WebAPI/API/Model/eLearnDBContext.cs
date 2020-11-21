@@ -24,14 +24,17 @@ namespace API.Model
             connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
+
         public virtual DbSet<AllDiscipleGrade> AllDiscipleGrades { get; set; }
         public virtual DbSet<AllLogin> AllLogins { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
+        public virtual DbSet<ClassInSchool> ClassInSchools { get; set; }
         public virtual DbSet<CompletedExam> CompletedExams { get; set; }
         public virtual DbSet<Disciple> Disciples { get; set; }
         public virtual DbSet<DiscipleGradesAll> DiscipleGradesAlls { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
-        public virtual DbSet<GetTimeTableData> GetTimeTableData { get; set; }
+        public virtual DbSet<GetGrade> GetGrades { get; set; }
+        public virtual DbSet<GetTimeTableDatum> GetTimeTableData { get; set; }
         public virtual DbSet<GetTtbyDiscipleId> GetTtbyDiscipleIds { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<GradesIssued> GradesIssueds { get; set; }
@@ -46,6 +49,7 @@ namespace API.Model
         public virtual DbSet<TeachersClass> TeachersClasses { get; set; }
         public virtual DbSet<TeachersSchool> TeachersSchools { get; set; }
         public virtual DbSet<TeachersSubject> TeachersSubjects { get; set; }
+        public virtual DbSet<TeachingStaff> TeachingStaffs { get; set; }
         public virtual DbSet<TimeTable> TimeTables { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -55,7 +59,6 @@ namespace API.Model
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -108,6 +111,19 @@ namespace API.Model
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .HasColumnName("name");
+
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
+            });
+
+            modelBuilder.Entity<ClassInSchool>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("ClassInSchool");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.NdId).HasColumnName("nd_id");
 
                 entity.Property(e => e.SchoolId).HasColumnName("school_id");
             });
@@ -265,7 +281,53 @@ namespace API.Model
                     .HasColumnName("name");
             });
 
-            modelBuilder.Entity<GetTimeTableData>(entity =>
+            modelBuilder.Entity<GetGrade>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("getGrades");
+
+                entity.Property(e => e.DateIssued)
+                    .HasColumnType("date")
+                    .HasColumnName("dateIssued")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.DiscipleId).HasColumnName("discipleId");
+
+                entity.Property(e => e.DiscipleName)
+                    .HasMaxLength(50)
+                    .HasColumnName("discipleName");
+
+                entity.Property(e => e.DiscipleSurname)
+                    .HasMaxLength(50)
+                    .HasColumnName("discipleSurname");
+
+                entity.Property(e => e.GradeName)
+                    .HasMaxLength(50)
+                    .HasColumnName("gradeName");
+
+                entity.Property(e => e.GradeValue).HasColumnName("gradeValue");
+
+                entity.Property(e => e.SubjectId).HasColumnName("subjectId");
+
+                entity.Property(e => e.SubjectName)
+                    .HasMaxLength(25)
+                    .HasColumnName("subjectName");
+
+                entity.Property(e => e.TeacherId).HasColumnName("teacherId");
+
+                entity.Property(e => e.TeacherName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("teacherName");
+
+                entity.Property(e => e.TeacherSurname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("teacherSurname");
+            });
+
+            modelBuilder.Entity<GetTimeTableDatum>(entity =>
             {
                 entity.HasNoKey();
 
@@ -654,6 +716,29 @@ namespace API.Model
                     .WithMany()
                     .HasForeignKey(d => d.TeacherId)
                     .HasConstraintName("FK_Teachers_Subjects_Teachers");
+            });
+
+            modelBuilder.Entity<TeachingStaff>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("TeachingStaff");
+
+                entity.Property(e => e.ClassName).HasMaxLength(50);
+
+                entity.Property(e => e.SchoolName).HasMaxLength(50);
+
+                entity.Property(e => e.SubjectName).HasMaxLength(25);
+
+                entity.Property(e => e.TeacherLogin).HasMaxLength(50);
+
+                entity.Property(e => e.TeacherName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TeacherSurname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<TimeTable>(entity =>

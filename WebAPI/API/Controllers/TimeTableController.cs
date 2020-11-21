@@ -17,13 +17,13 @@ namespace API.Controllers
         }
 
         [HttpGet("GetTimeTableDataDay")]
-        public async Task<List<GetTimeTableData>> GetTimeTableDataDay(int classId, int day, int schoolId)
+        public async Task<List<GetTimeTableDatum>> GetTimeTableDataDay(int classId, int day, int schoolId)
         {
             var returnTTByDisciple = await _context.GetTimeTableData.Where(s => s.DayOfWeekId == day && s.ClassId == classId && s.SchoolId == schoolId).ToArrayAsync();
             return returnTTByDisciple.ToList();
         }
         [HttpGet("GetTimeTableDataWeek")]
-        public async Task<List<GetTimeTableData>> GetTimeTableDataWeek(int classId, int schoolId)
+        public async Task<List<GetTimeTableDatum>> GetTimeTableDataWeek(int classId, int schoolId)
         {
             var returnTTByDisciple = await _context.GetTimeTableData.Where(s => s.ClassId == classId && s.SchoolId == schoolId).ToArrayAsync();
             return returnTTByDisciple.ToList();

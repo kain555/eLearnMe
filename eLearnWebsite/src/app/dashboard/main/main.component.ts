@@ -20,14 +20,15 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.currDate = new Date();
     var day = this.currDate.getDay();
-    this.ttService.getTTbyDisciple(1, day, 1).subscribe(x => {
-    if(day === 5 || 6){
+    if (day === 6 || 0) {
       this.showWeekend = true;
-      this.showTT = false;
     }
     else
-    this.showTT = true;
-    this.dataSource = x;
-   });
+    {
+      this.ttService.getTTbyDisciple(1, day, 1).subscribe(x => {
+        this.showTT = true;
+        this.dataSource = x;
+     });
+    }
   }
 }
