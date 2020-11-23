@@ -13,8 +13,8 @@ export class TimeTableService {
 
   constructor(private http: HttpClient) { }
 
-  public getTTbyDisciple (classId: number, day: number, schoolId: number): Observable<GetTTByDisciple>{
-    return this.http.get<GetTTByDisciple>(this.apiUrl + 'TimeTable/GetTimeTableDataDay?classId=' + classId + '&day=' + day + '&schoolId=' + schoolId);
+  public getTTbyDisciple (classId: number, day: number): Observable<GetTTByDisciple>{
+    return this.http.get<GetTTByDisciple>(this.apiUrl + 'TimeTable/GetTimeTableDataDay?classId=' + classId + '&day=' +day);
   }
 
   public getSchool (id: number): Observable<School> {

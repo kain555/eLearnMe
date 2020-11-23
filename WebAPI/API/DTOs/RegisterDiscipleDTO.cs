@@ -9,15 +9,9 @@ namespace API.DTOs
 {
     public class RegisterDiscipleDTO
     {
-        [Required]
         public int TeacherId { get; set; }
-        [Required]
         public DateTime? CreateDate { get; set; }
-        [Required]
-        public int SchoolId { get; set; }
-        [Required]
         public int ClassId { get; set; }
-        [Required]
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
@@ -25,7 +19,6 @@ namespace API.DTOs
         public string Name { get; set; }
         [Required]
         public string Surname { get; set; }
-        [Required]
         public string DateOfBirth { get; set; }
         [Required]
         public string Pesel { get; set; }

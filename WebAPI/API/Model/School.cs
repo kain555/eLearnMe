@@ -9,9 +9,7 @@ namespace API.Model
     {
         public School()
         {
-            Disciples = new HashSet<Disciple>();
             Rooms = new HashSet<Room>();
-            TimeTables = new HashSet<TimeTable>();
         }
 
         public int SchoolId { get; set; }
@@ -23,8 +21,6 @@ namespace API.Model
 
         public virtual SchoolProfile Profile { get; set; }
         public virtual SchoolsType Type { get; set; }
-        public virtual ICollection<Disciple> Disciples { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
-        public virtual ICollection<TimeTable> TimeTables { get; set; }
     }
 }

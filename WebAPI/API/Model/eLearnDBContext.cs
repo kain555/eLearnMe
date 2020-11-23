@@ -24,12 +24,14 @@ namespace API.Model
             connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
-
         public virtual DbSet<AllDiscipleGrade> AllDiscipleGrades { get; set; }
         public virtual DbSet<AllLogin> AllLogins { get; set; }
+        public virtual DbSet<Announce> Announces { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<ClassInSchool> ClassInSchools { get; set; }
         public virtual DbSet<CompletedExam> CompletedExams { get; set; }
+        public virtual DbSet<CompletedExams3000> CompletedExams3000s { get; set; }
+        public virtual DbSet<CountDiscipleInClass> CountDiscipleInClasses { get; set; }
         public virtual DbSet<Disciple> Disciples { get; set; }
         public virtual DbSet<DiscipleGradesAll> DiscipleGradesAlls { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
@@ -42,6 +44,7 @@ namespace API.Model
         public virtual DbSet<RegisterDisciple> RegisterDisciples { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<School> Schools { get; set; }
+        public virtual DbSet<SchoolAnnouncement> SchoolAnnouncements { get; set; }
         public virtual DbSet<SchoolProfile> SchoolProfiles { get; set; }
         public virtual DbSet<SchoolsType> SchoolsTypes { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
@@ -51,6 +54,7 @@ namespace API.Model
         public virtual DbSet<TeachersSubject> TeachersSubjects { get; set; }
         public virtual DbSet<TeachingStaff> TeachingStaffs { get; set; }
         public virtual DbSet<TimeTable> TimeTables { get; set; }
+        public virtual DbSet<TimeTableDatum> TimeTableData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -102,6 +106,37 @@ namespace API.Model
                 entity.ToView("AllLogins");
 
                 entity.Property(e => e.Login).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Announce>(entity =>
+            {
+                entity.ToTable("Announce");
+
+                entity.Property(e => e.AnnounceId).HasColumnName("announce_id");
+
+                entity.Property(e => e.AddDate)
+                    .HasColumnType("date")
+                    .HasColumnName("add_date")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.AnnounceContent)
+                    .HasColumnType("text")
+                    .HasColumnName("announce_content")
+                    .HasAnnotation("Relational:ColumnType", "text");
+
+                entity.Property(e => e.AnnouncingBy)
+                    .HasMaxLength(50)
+                    .HasColumnName("announcing_by");
+
+                entity.Property(e => e.KindOf)
+                    .HasMaxLength(50)
+                    .HasColumnName("kind_of");
+
+                entity.Property(e => e.Piority)
+                    .HasMaxLength(50)
+                    .HasColumnName("piority");
+
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
             });
 
             modelBuilder.Entity<Class>(entity =>
@@ -156,6 +191,37 @@ namespace API.Model
                     .WithMany(p => p.CompletedExams)
                     .HasForeignKey(d => d.ExamId)
                     .HasConstraintName("FK_Completed_exams_Exams");
+            });
+
+            modelBuilder.Entity<CompletedExams3000>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("'Completed_exams 3000$'");
+
+                entity.Property(e => e.Date)
+                    .HasColumnType("datetime")
+                    .HasColumnName("date")
+                    .HasAnnotation("Relational:ColumnType", "datetime");
+
+                entity.Property(e => e.DiscipleId).HasColumnName("disciple_id");
+
+                entity.Property(e => e.ExamId).HasColumnName("exam_id");
+
+                entity.Property(e => e.Gained).HasColumnName("gained");
+            });
+
+            modelBuilder.Entity<CountDiscipleInClass>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("CountDiscipleInClass");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
             });
 
             modelBuilder.Entity<Disciple>(entity =>
@@ -217,8 +283,6 @@ namespace API.Model
                     .HasColumnName("postal_code")
                     .IsFixedLength(true);
 
-                entity.Property(e => e.SchoolId).HasColumnName("school_id");
-
                 entity.Property(e => e.Surname)
                     .HasMaxLength(50)
                     .HasColumnName("surname");
@@ -229,11 +293,6 @@ namespace API.Model
                     .WithMany(p => p.Disciples)
                     .HasForeignKey(d => d.ClassId)
                     .HasConstraintName("FK_New_Disciples_Classes");
-
-                entity.HasOne(d => d.School)
-                    .WithMany(p => p.Disciples)
-                    .HasForeignKey(d => d.SchoolId)
-                    .HasConstraintName("FK_New_Disciples_Schools");
 
                 entity.HasOne(d => d.Teacher)
                     .WithMany(p => p.Disciples)
@@ -482,8 +541,6 @@ namespace API.Model
 
                 entity.Property(e => e.RegisterDId).HasColumnName("registerD_id");
 
-                entity.Property(e => e.SchoolId).HasColumnName("school_id");
-
                 entity.Property(e => e.Status)
                     .HasMaxLength(50)
                     .IsUnicode(false)
@@ -501,11 +558,6 @@ namespace API.Model
                     .HasForeignKey(d => d.NdId)
                     .HasConstraintName("FK_RegisterDisciples_New_Disciples");
 
-                entity.HasOne(d => d.School)
-                    .WithMany()
-                    .HasForeignKey(d => d.SchoolId)
-                    .HasConstraintName("FK_RegisterDisciples_Schools");
-
                 entity.HasOne(d => d.Teacher)
                     .WithMany()
                     .HasForeignKey(d => d.TeacherId)
@@ -517,7 +569,7 @@ namespace API.Model
                 entity.Property(e => e.RoomId).HasColumnName("room_id");
 
                 entity.Property(e => e.Name)
-                    .HasMaxLength(50)
+                    .HasMaxLength(200)
                     .HasColumnName("name");
 
                 entity.Property(e => e.SchoolId).HasColumnName("school_id");
@@ -559,6 +611,29 @@ namespace API.Model
                     .WithMany(p => p.Schools)
                     .HasForeignKey(d => d.TypeId)
                     .HasConstraintName("FK_Schools_Schools_Types");
+            });
+
+            modelBuilder.Entity<SchoolAnnouncement>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("School_announcements");
+
+                entity.Property(e => e.AnnounceId).HasColumnName("announce_id");
+
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
+
+                entity.HasOne(d => d.Announce)
+                    .WithMany()
+                    .HasForeignKey(d => d.AnnounceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_School_announcements_Announce");
+
+                entity.HasOne(d => d.School)
+                    .WithMany()
+                    .HasForeignKey(d => d.SchoolId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_School_announcements_Schools");
             });
 
             modelBuilder.Entity<SchoolProfile>(entity =>
@@ -764,8 +839,6 @@ namespace API.Model
 
                 entity.Property(e => e.RoomId).HasColumnName("room_id");
 
-                entity.Property(e => e.SchoolId).HasColumnName("school_id");
-
                 entity.Property(e => e.SubjectId).HasColumnName("subject_id");
 
                 entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
@@ -785,11 +858,6 @@ namespace API.Model
                     .HasForeignKey(d => d.RoomId)
                     .HasConstraintName("FK_TimeTable_Rooms");
 
-                entity.HasOne(d => d.School)
-                    .WithMany(p => p.TimeTables)
-                    .HasForeignKey(d => d.SchoolId)
-                    .HasConstraintName("FK_TimeTable_Schools");
-
                 entity.HasOne(d => d.Subject)
                     .WithMany(p => p.TimeTables)
                     .HasForeignKey(d => d.SubjectId)
@@ -799,6 +867,60 @@ namespace API.Model
                     .WithMany(p => p.TimeTables)
                     .HasForeignKey(d => d.TeacherId)
                     .HasConstraintName("FK_TimeTable_Teachers");
+            });
+
+            modelBuilder.Entity<TimeTableDatum>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("TimeTableData");
+
+                entity.Property(e => e.ClassId).HasColumnName("classId");
+
+                entity.Property(e => e.ClassName)
+                    .HasMaxLength(50)
+                    .HasColumnName("className");
+
+                entity.Property(e => e.DayOfWeek)
+                    .HasMaxLength(20)
+                    .HasColumnName("dayOfWeek");
+
+                entity.Property(e => e.DayOfWeekId).HasColumnName("dayOfWeekId");
+
+                entity.Property(e => e.LessonHourId).HasColumnName("lessonHourId");
+
+                entity.Property(e => e.LessonHourName)
+                    .HasMaxLength(20)
+                    .HasColumnName("lessonHourName");
+
+                entity.Property(e => e.Note)
+                    .HasColumnType("text")
+                    .HasColumnName("note")
+                    .HasAnnotation("Relational:ColumnType", "text");
+
+                entity.Property(e => e.RoomId).HasColumnName("roomId");
+
+                entity.Property(e => e.RoomName)
+                    .HasMaxLength(200)
+                    .HasColumnName("roomName");
+
+                entity.Property(e => e.SubjectId).HasColumnName("subjectId");
+
+                entity.Property(e => e.SubjectName)
+                    .HasMaxLength(25)
+                    .HasColumnName("subjectName");
+
+                entity.Property(e => e.TeacherId).HasColumnName("teacherId");
+
+                entity.Property(e => e.TeacherName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("teacherName");
+
+                entity.Property(e => e.TeacherSurname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("teacherSurname");
             });
 
             OnModelCreatingPartial(modelBuilder);

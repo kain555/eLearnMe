@@ -22,6 +22,18 @@ namespace API.Controllers
             _tokenService = tokenService;
         }
 
+        private Random newGen = new Random();
+        DateTime RandomDayDiciple()
+        {
+            DateTime start = new DateTime(1996, 1, 1);
+            DateTime end = new DateTime(2010, 1, 1);
+            int range = (end - start).Days;
+            return start.AddDays(newGen.Next(range));
+        }
+
+        static Random r = new Random();
+        int rInt = r.Next(1, 30);
+
         [HttpPost("newDisciple")]
         public async Task<ActionResult<List<Disciple>>> NewDisciple(List<RegisterDiscipleDTO> registerDTO)
         {
@@ -33,22 +45,21 @@ namespace API.Controllers
 
                 var newD = new Disciple
                 {
-                    TeacherId = registerDTO[i].TeacherId,
-                    CreateDate = registerDTO[i].CreateDate,
-                    SchoolId = registerDTO[i].SchoolId,
+                    TeacherId = 1,
+                    CreateDate = null,
                     Login = registerDTO[i].Login.ToLower(),
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO[i].Password)),
                     PasswordSalt = hmac.Key,
                     Name = registerDTO[i].Name,
                     Surname = registerDTO[i].Surname,
-                    DateOfBirth = registerDTO[i].DateOfBirth,
+                    DateOfBirth = RandomDayDiciple().ToString(),
                     Pesel = registerDTO[i].Pesel,
                     Email = registerDTO[i].Email,
                     Address = registerDTO[i].Address,
                     PostalCode = registerDTO[i].PostalCode,
                     City = registerDTO[i].City,
                     ClassId = registerDTO[i].ClassId,
-                    Active = false
+                    Active = true
                 };
                 _context.Disciples.Add(newD);
                 await _context.SaveChangesAsync();
@@ -63,36 +74,45 @@ namespace API.Controllers
             return disciples;
         }
 
+        private Random gen = new Random();
+        DateTime RandomDay()
+        {
+            DateTime start = new DateTime(1940, 1, 1);
+            DateTime end = new DateTime(1995, 1, 1);
+            int range = (end - start).Days;
+            return start.AddDays(gen.Next(range));
+        }
+
         [HttpPost("newTeacher")]
-        public async Task<ActionResult<TokenDTO>> NewTeacher(RegisterTeacherDTO teacherDTO)
+        public async Task<ActionResult<List<Teacher>>> NewTeacher(List<RegisterTeacherDTO> teacherDTO)
         {
             using var hmac = new HMACSHA512();
+            List<Teacher> teachers = new List<Teacher>();
 
-            if (await UserExists(teacherDTO.Login)) return BadRequest("Username is taken");
+            for (int i = 0; i < teacherDTO.Count; i++)
+            { 
+            if (await UserExists(teacherDTO[i].Login)) return BadRequest("Username is taken");
 
             var teacher = new Teacher
             {
-                Login = teacherDTO.Login,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(teacherDTO.Password)),
+
+                Login = teacherDTO[i].Login,
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(teacherDTO[i].Password)),
                 PasswordSalt = hmac.Key,
-                Name = teacherDTO.Name,
-                Surname = teacherDTO.Surname,
-                DateOfBirth = teacherDTO.DateOfBirth,
-                Pesel = teacherDTO.Pesel,
-                Address = teacherDTO.Address,
-                PostalCode = teacherDTO.PostalCode,
-                City = teacherDTO.City,
-                WhetherDirector = teacherDTO.whether_director,
-                SubjectId = teacherDTO.subject_id
+                Name = teacherDTO[i].Name,
+                Surname = teacherDTO[i].Surname,
+                DateOfBirth = RandomDay(),
+                Pesel = teacherDTO[i].Pesel,
+                Address = teacherDTO[i].Address,
+                PostalCode = teacherDTO[i].PostalCode,
+                City = teacherDTO[i].City,
+                WhetherDirector = teacherDTO[i].whether_director
             };
             _context.Teachers.Add(teacher);
             await _context.SaveChangesAsync();
-
-            return new TokenDTO
-            {
-                Login = teacher.Login,
-                Token = _tokenService.CreateTokenTeacher(teacher)
-            };
+                teachers.Add(teacher);
+            }
+            return teachers;
         }
 
         [HttpPost("login")]

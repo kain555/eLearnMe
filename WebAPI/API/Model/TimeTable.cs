@@ -10,7 +10,6 @@ namespace API.Model
         public int TimetableId { get; set; }
         public int? SubjectId { get; set; }
         public int? ClassId { get; set; }
-        public int? SchoolId { get; set; }
         public string DayOfWeek { get; set; }
         public int? DayOfWeekId { get; set; }
         public int? LessonHourId { get; set; }
@@ -21,7 +20,6 @@ namespace API.Model
         public virtual Class Class { get; set; }
         public virtual LessonHour LessonHour { get; set; }
         public virtual Room Room { get; set; }
-        public virtual School School { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual Teacher Teacher { get; set; }
     }

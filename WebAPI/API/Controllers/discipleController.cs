@@ -40,7 +40,6 @@ namespace API.Controllers
             {
                 NdId = registerDisciple.NdId,
                 Date = registerDisciple.Date,
-                SchoolId = registerDisciple.SchoolId,
                 TeacherId = registerDisciple.TeacherId,
                 ClassId = registerDisciple.ClassId,
                 Status = "Proces rejestracji uruchomiony przez nauczyciela, czeka na akceptacje dyrektora"

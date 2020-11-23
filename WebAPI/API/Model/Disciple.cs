@@ -28,11 +28,9 @@ namespace API.Model
         public DateTime? CreateDate { get; set; }
         public bool? Active { get; set; }
         public int? TeacherId { get; set; }
-        public int? SchoolId { get; set; }
         public int? ClassId { get; set; }
 
         public virtual Class Class { get; set; }
-        public virtual School School { get; set; }
         public virtual Teacher Teacher { get; set; }
         public virtual ICollection<CompletedExam> CompletedExams { get; set; }
         public virtual ICollection<GradesIssued> GradesIssueds { get; set; }

@@ -26,9 +26,7 @@ namespace API.DTOs
         public string PostalCode { get; set; }
         [Required]
         public string City { get; set; }
-        [Required]
         public int subject_id { get; set; }
-        [Required]
         public bool whether_director { get; set; }
     }
 }
