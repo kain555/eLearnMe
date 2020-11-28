@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    public class discipleController : baseController
+    public class discipleController : BaseController
     {
         private readonly eLearnDBContext _context;
 

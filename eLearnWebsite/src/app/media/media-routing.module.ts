@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GalleryComponent } from './gallery/gallery.component';
+import { SingleAnnounceComponent } from './single-announce/single-announce.component';
 const routes: Routes = [
   {
     path: '',
@@ -11,6 +12,10 @@ const routes: Routes = [
     path: 'gallery',
     component: GalleryComponent,
   },
+  {
+    path: 'announce',
+    component: SingleAnnounceComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

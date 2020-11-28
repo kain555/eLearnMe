@@ -26,7 +26,7 @@ export class MainComponent implements OnInit {
     console.log(this.user.id);
     this.currDate = new Date();
     var day = this.currDate.getDay();
-    if (day === 0) {
+    if (day === 0 || 6) {
       this.showWeekend = true;
     }
     else

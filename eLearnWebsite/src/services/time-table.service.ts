@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GetTTByDisciple } from '../models/IGetTTByDisciple'
 import { School } from '../models/ISchool'
+import { Announce } from '../models/IAnnounce'
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,13 @@ export class TimeTableService {
 
   public getTeachersBySchool (schoolId: number): Observable<any>{
     return this.http.get<any>(this.apiUrl + 'teachers?schoolId=' + schoolId);
+  }
+
+  public getAnnounces (schoolId: number): Observable<Announce>{
+    return this.http.get<Announce>(this.apiUrl + 'Announce?schoolId=' + schoolId);
+  }
+
+  public getSingleAnnounce (announceId: number): Observable<Announce>{
+    return this.http.get<Announce>(this.apiUrl + 'Announce/' + announceId);
   }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    public class SchoolController : baseController
+    public class SchoolController : BaseController
     {
         private readonly eLearnDBContext _context;
         public SchoolController(eLearnDBContext context)

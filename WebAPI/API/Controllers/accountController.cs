@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    public class accountController : baseController
+    public class accountController : BaseController
     {
         public readonly eLearnDBContext _context;
         private readonly ITokenService _tokenService;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    public class TimeTableController : baseController
+    public class TimeTableController : BaseController
     {
         private readonly eLearnDBContext _context;
         public TimeTableController(eLearnDBContext context)
