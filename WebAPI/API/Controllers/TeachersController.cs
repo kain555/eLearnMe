@@ -18,9 +18,9 @@ namespace API.Controllers
             _context = context;
         }
         [HttpGet]
-        public async Task<List<TeachingStaff>> GetTimeTableDataWeek(int schoolId)
+        public async Task<List<GetTeachingStaff>> getTeachingStaff(int schoolId)
         {
-            var returnTTByDisciple = await _context.TeachingStaffs.Where(s => s.SchoolId == schoolId).ToArrayAsync();
+            var returnTTByDisciple = await _context.GetTeachingStaffs.Where(s => s.SchoolId == schoolId).ToArrayAsync();
             return returnTTByDisciple.ToList();
         }
     }

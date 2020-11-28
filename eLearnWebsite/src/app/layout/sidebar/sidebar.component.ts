@@ -11,6 +11,8 @@ import {
 import { ROUTES } from './sidebar-items';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { date } from 'ngx-custom-validators/src/app/date/validator';
+import { AccountService } from 'src/services/account.service';
+import { DiscipleToken } from 'src/models/DiscipleToken';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -38,8 +40,10 @@ export class SidebarComponent implements OnInit {
     private renderer: Renderer2,
     public elementRef: ElementRef,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private accountService: AccountService
   ) {
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (event.url.split('/')[1] === 'multilevel') {
@@ -51,6 +55,7 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
+  user: DiscipleToken;
   @HostListener('window:resize', ['$event'])
   windowResizecall(event) {
     this.setMenuHeight();

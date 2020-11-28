@@ -9,6 +9,7 @@ namespace API.Model
     {
         public School()
         {
+            LuckyNumbers = new HashSet<LuckyNumber>();
             Rooms = new HashSet<Room>();
         }
 
@@ -21,6 +22,7 @@ namespace API.Model
 
         public virtual SchoolProfile Profile { get; set; }
         public virtual SchoolsType Type { get; set; }
+        public virtual ICollection<LuckyNumber> LuckyNumbers { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -9,7 +8,6 @@ namespace API.Model
 {
     public partial class eLearnDBContext : DbContext
     {
-        private string connectionString;
         public eLearnDBContext()
         {
         }
@@ -17,11 +15,6 @@ namespace API.Model
         public eLearnDBContext(DbContextOptions<eLearnDBContext> options)
             : base(options)
         {
-            var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json", optional: false);
-            var configuration = builder.Build();
-
-            connectionString = configuration.GetConnectionString("DefaultConnection").ToString();
         }
 
         public virtual DbSet<AllDiscipleGrade> AllDiscipleGrades { get; set; }
@@ -30,27 +23,26 @@ namespace API.Model
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<ClassInSchool> ClassInSchools { get; set; }
         public virtual DbSet<CompletedExam> CompletedExams { get; set; }
-        public virtual DbSet<CompletedExams3000> CompletedExams3000s { get; set; }
         public virtual DbSet<CountDiscipleInClass> CountDiscipleInClasses { get; set; }
         public virtual DbSet<Disciple> Disciples { get; set; }
         public virtual DbSet<DiscipleGradesAll> DiscipleGradesAlls { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
         public virtual DbSet<GetGrade> GetGrades { get; set; }
+        public virtual DbSet<GetTeachingStaff> GetTeachingStaffs { get; set; }
         public virtual DbSet<GetTimeTableDatum> GetTimeTableData { get; set; }
         public virtual DbSet<GetTtbyDiscipleId> GetTtbyDiscipleIds { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<GradesIssued> GradesIssueds { get; set; }
         public virtual DbSet<LessonHour> LessonHours { get; set; }
+        public virtual DbSet<LuckyNumber> LuckyNumbers { get; set; }
         public virtual DbSet<RegisterDisciple> RegisterDisciples { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<School> Schools { get; set; }
-        public virtual DbSet<SchoolAnnouncement> SchoolAnnouncements { get; set; }
         public virtual DbSet<SchoolProfile> SchoolProfiles { get; set; }
         public virtual DbSet<SchoolsType> SchoolsTypes { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<TeachersClass> TeachersClasses { get; set; }
-        public virtual DbSet<TeachersSchool> TeachersSchools { get; set; }
         public virtual DbSet<TeachersSubject> TeachersSubjects { get; set; }
         public virtual DbSet<TeachingStaff> TeachingStaffs { get; set; }
         public virtual DbSet<TimeTable> TimeTables { get; set; }
@@ -60,7 +52,8 @@ namespace API.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(connectionString);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=elearnapp.database.windows.net;Database=eLearnDB;user id=elearnAdmin;password=ADlearn123!;");
             }
         }
 
@@ -193,29 +186,13 @@ namespace API.Model
                     .HasConstraintName("FK_Completed_exams_Exams");
             });
 
-            modelBuilder.Entity<CompletedExams3000>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("'Completed_exams 3000$'");
-
-                entity.Property(e => e.Date)
-                    .HasColumnType("datetime")
-                    .HasColumnName("date")
-                    .HasAnnotation("Relational:ColumnType", "datetime");
-
-                entity.Property(e => e.DiscipleId).HasColumnName("disciple_id");
-
-                entity.Property(e => e.ExamId).HasColumnName("exam_id");
-
-                entity.Property(e => e.Gained).HasColumnName("gained");
-            });
-
             modelBuilder.Entity<CountDiscipleInClass>(entity =>
             {
                 entity.HasNoKey();
 
                 entity.ToView("CountDiscipleInClass");
+
+                entity.Property(e => e.C).HasColumnName("c");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
@@ -386,6 +363,47 @@ namespace API.Model
                     .HasColumnName("teacherSurname");
             });
 
+            modelBuilder.Entity<GetTeachingStaff>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("getTeachingStaff");
+
+                entity.Property(e => e.ClassId).HasColumnName("classId");
+
+                entity.Property(e => e.ClassName)
+                    .HasMaxLength(50)
+                    .HasColumnName("className");
+
+                entity.Property(e => e.Login)
+                    .HasMaxLength(50)
+                    .HasColumnName("login");
+
+                entity.Property(e => e.SchoolId).HasColumnName("schoolId");
+
+                entity.Property(e => e.SchoolName)
+                    .HasMaxLength(50)
+                    .HasColumnName("schoolName");
+
+                entity.Property(e => e.SubjectId).HasColumnName("subjectId");
+
+                entity.Property(e => e.SubjectName)
+                    .HasMaxLength(25)
+                    .HasColumnName("subjectName");
+
+                entity.Property(e => e.TeacherId).HasColumnName("teacherId");
+
+                entity.Property(e => e.TeacherName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("teacherName");
+
+                entity.Property(e => e.TeacherSurname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("teacherSurname");
+            });
+
             modelBuilder.Entity<GetTimeTableDatum>(entity =>
             {
                 entity.HasNoKey();
@@ -526,6 +544,25 @@ namespace API.Model
                     .HasColumnName("name");
             });
 
+            modelBuilder.Entity<LuckyNumber>(entity =>
+            {
+                entity.Property(e => e.LuckyNumberId).HasColumnName("lucky_number_Id");
+
+                entity.Property(e => e.Date)
+                    .HasColumnType("date")
+                    .HasColumnName("date")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.LuckyNumber1).HasColumnName("lucky_number");
+
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
+
+                entity.HasOne(d => d.School)
+                    .WithMany(p => p.LuckyNumbers)
+                    .HasForeignKey(d => d.SchoolId)
+                    .HasConstraintName("FK_Lucky_Numbers_Schools");
+            });
+
             modelBuilder.Entity<RegisterDisciple>(entity =>
             {
                 entity.HasNoKey();
@@ -611,29 +648,6 @@ namespace API.Model
                     .WithMany(p => p.Schools)
                     .HasForeignKey(d => d.TypeId)
                     .HasConstraintName("FK_Schools_Schools_Types");
-            });
-
-            modelBuilder.Entity<SchoolAnnouncement>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("School_announcements");
-
-                entity.Property(e => e.AnnounceId).HasColumnName("announce_id");
-
-                entity.Property(e => e.SchoolId).HasColumnName("school_id");
-
-                entity.HasOne(d => d.Announce)
-                    .WithMany()
-                    .HasForeignKey(d => d.AnnounceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_School_announcements_Announce");
-
-                entity.HasOne(d => d.School)
-                    .WithMany()
-                    .HasForeignKey(d => d.SchoolId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_School_announcements_Schools");
             });
 
             modelBuilder.Entity<SchoolProfile>(entity =>
@@ -749,27 +763,6 @@ namespace API.Model
                     .WithMany(p => p.TeachersClasses)
                     .HasForeignKey(d => d.TeacherId)
                     .HasConstraintName("FK_teachers_classes_Teachers");
-            });
-
-            modelBuilder.Entity<TeachersSchool>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("Teachers_Schools");
-
-                entity.Property(e => e.SchoolId).HasColumnName("school_id");
-
-                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
-
-                entity.HasOne(d => d.School)
-                    .WithMany()
-                    .HasForeignKey(d => d.SchoolId)
-                    .HasConstraintName("FK_teachers_schools_Schools");
-
-                entity.HasOne(d => d.Teacher)
-                    .WithMany()
-                    .HasForeignKey(d => d.TeacherId)
-                    .HasConstraintName("FK_teachers_schools_Teachers");
             });
 
             modelBuilder.Entity<TeachersSubject>(entity =>

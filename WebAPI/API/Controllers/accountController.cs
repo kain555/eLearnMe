@@ -132,7 +132,9 @@ namespace API.Controllers
                 return new TokenDTO
                 {
                     Login = user.Login,
-                    Token = _tokenService.CreateTokenDisciple(user)
+                    Token = _tokenService.CreateTokenDisciple(user),
+                    ClassId = (int)user.ClassId,
+                    Id = user.NdId
                 };
             }
             else if (user == null)
@@ -151,7 +153,8 @@ namespace API.Controllers
                     return new TokenDTO
                     {
                         Login = teacher.Login,
-                        Token = _tokenService.CreateTokenTeacher(teacher)
+                        Token = _tokenService.CreateTokenTeacher(teacher),
+                        Id = teacher.TeacherId
                     };
                 }
             }

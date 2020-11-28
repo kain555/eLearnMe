@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PlatformLocation } from '@angular/common';
+import { AccountService } from 'src/services/account.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,6 +10,7 @@ import { PlatformLocation } from '@angular/common';
 })
 export class AppComponent {
   currentUrl: string;
+  user: any;
   constructor(
     public _router: Router,
     location: PlatformLocation,

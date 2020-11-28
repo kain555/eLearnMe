@@ -1,18 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ContactsService } from './contacts.service';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Contacts } from './contacts.model';
-import { DataSource } from '@angular/cdk/collections';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { SelectionModel } from '@angular/cdk/collections';
-import { FormComponent } from './form/form.component';
-import { DeleteComponent } from './delete/delete.component';
 import { TimeTableService } from 'src/services/time-table.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TeachersBySchool } from '../../models/ITeachersBySchool'
@@ -35,15 +23,14 @@ export class ContactsComponent implements OnInit {
     'teacherSurname',
     'className',
     'subjectName',
-    'email',
-    'director'
+    'email'
   ];
 
   teachersData: any;
   dataSource: MatTableDataSource<TeachersBySchool>;
 
   ngOnInit() {
-    this.teachersService.getTeachersBySchool(1).subscribe(x => {
+    this.teachersService.getTeachersBySchool(9).subscribe(x => {
       this.teachersData = x;
       this.dataSource = new MatTableDataSource(this.teachersData);
       console.log(this.dataSource);

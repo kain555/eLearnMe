@@ -7,7 +7,7 @@ namespace API.Model
 {
     public partial class CountDiscipleInClass
     {
-        public int? Count { get; set; }
+        public int? C { get; set; }
         public string Name { get; set; }
         public int? SchoolId { get; set; }
     }
