@@ -51,7 +51,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background: #ffffff;
+  background: #12161f;
   // padding: 30px;
 }
 
@@ -69,6 +69,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  background-image: url("../../images/logowanie.png");
   position: relative;
   z-index: 1;
 }
@@ -92,6 +93,7 @@
   margin: 30px;
   border: 1px solid #cacaca;
   border-radius: 20px;
+  margin-right: 70px;
 }
 
 .login100-form-title {
