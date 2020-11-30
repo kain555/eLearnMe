@@ -18,15 +18,17 @@ export class MainComponent implements OnInit {
   user: DiscipleToken;
   classId: number;
 
-  constructor(private ttService: TimeTableService, private accountService: AccountService) {
-    this.user = JSON.parse(localStorage.getItem('user'));
-  }
+  constructor(private ttService: TimeTableService, private accountService: AccountService) {}
 
   ngOnInit() {
-    console.log(this.user.id);
+    this.getCurrentUser();
     this.currDate = new Date();
     var day = this.currDate.getDay();
-    if (day === 0 || 6) {
+    if (day === 0) {
+      this.showWeekend = true;
+    }
+    else if (day === 6)
+    {
       this.showWeekend = true;
     }
     else
@@ -36,5 +38,11 @@ export class MainComponent implements OnInit {
         this.dataSource = x;
      });
     }
+  }
+
+  getCurrentUser() {
+    this.accountService.currentUser$.subscribe(x => {
+      this.user = x;
+    })
   }
 }

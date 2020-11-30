@@ -27,7 +27,6 @@ export class AccountService {
   }
 
   setCurrentDisciple(disciple: DiscipleToken) {
-    console.log(disciple);
     this.currentUserSource.next(disciple)
   }
 }

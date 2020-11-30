@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { DiscipleToken } from 'src/models/DiscipleToken';
+import { AccountService } from 'src/services/account.service';
 import { TimeTableService } from 'src/services/time-table.service';
 
 @Component({
@@ -8,16 +10,17 @@ import { TimeTableService } from 'src/services/time-table.service';
 })
 export class GoogleComponent {
   @Input() subjectName: string;
-  discipleId = 3;
+  user: DiscipleToken;
   gradesDiscipleObject: Array<any>;
   gradesArray: any;
   avg: number;
   sum = 0;
-  constructor(private ttService: TimeTableService) { 
+  constructor(private ttService: TimeTableService, private accountService:AccountService) { 
   }
 
   ngOnInit(): void {
-    this.ttService.getGradesByDisciple(this.discipleId, this.subjectName).subscribe(x => {
+    this.getCurrentUser();
+    this.ttService.getGradesByDisciple(this.user.id, this.subjectName).subscribe(x => {
       this.gradesDiscipleObject = x;
       let result = this.gradesDiscipleObject.map(a => a.gValue);
       if (result.length === 0){
@@ -32,6 +35,12 @@ export class GoogleComponent {
       this.gradesArray = result;
       }
       
+    })
+  }
+
+  getCurrentUser() {
+    this.accountService.currentUser$.subscribe(x => {
+      this.user = x;
     })
   }
 

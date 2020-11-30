@@ -3,6 +3,7 @@ import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PlatformLocation } from '@angular/common';
 import { AccountService } from 'src/services/account.service';
+import { DiscipleToken } from 'src/models/DiscipleToken';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +13,7 @@ export class AppComponent {
   currentUrl: string;
   user: any;
   constructor(
+    private accService: AccountService,
     public _router: Router,
     location: PlatformLocation,
     private spinner: NgxSpinnerService
@@ -31,5 +33,11 @@ export class AppComponent {
       }
       window.scrollTo(0, 0);
     });
+    this.setCurrentUser();
+  }
+
+  setCurrentUser() {
+    const user: DiscipleToken = JSON.parse(localStorage.getItem('user'));
+    this.accService.setCurrentDisciple(user);
   }
 }
