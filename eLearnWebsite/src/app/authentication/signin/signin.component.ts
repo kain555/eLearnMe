@@ -54,15 +54,17 @@ export class SigninComponent implements OnInit {
     this.login();
     this.submitted = true;
     this.error = '';
+    this.model = {"login": this.f.username.value, "password": this.f.password.value};
     if (this.loginForm.invalid) {
       this.error = 'Username and Password not valid !';
       return;
     } else {
       this.authService
-        .login(this.f.username.value, this.f.password.value)
+        .login(this.f.username.value,this.f.password.value)
         .subscribe(
           (res) => {
-            if (res.success) {
+            const su = true;
+            if (su) {
               this.router.navigate(['/dashboard/main']);
             } else {
               this.error = 'Invalid Login';

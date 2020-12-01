@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import { RightSidebarService } from 'src/app/core/service/rightsidebar.service';
-import { ConfigService } from '../../config/config.service';
+import { ConfigService } from '../../rubbish/config/config.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -10,7 +10,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfigService } from 'src/app/config/config.service';
+import { ConfigService } from '../../rubbish/config/config.service';
 import { TimeTableService } from 'src/services/time-table.service';
 const document: any = window.document;
 
