@@ -43,7 +43,6 @@ export class MainComponent implements OnInit {
   getCurrentUser() {
     this.accountService.currentUser$.subscribe(x => {
       this.user = x;
-      console.log(x);
     })
   }
 }

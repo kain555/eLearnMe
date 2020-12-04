@@ -30,17 +30,12 @@ export class ContactsComponent implements OnInit {
   dataSource: MatTableDataSource<TeachersBySchool>;
 
   ngOnInit() {
-    this.teachersService.getTeachersBySchool(9).subscribe(x => {
+    this.teachersService.getTeachersBySchool(1).subscribe(x => {
       this.teachersData = x;
       this.dataSource = new MatTableDataSource(this.teachersData);
-      console.log(this.dataSource);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
   });
-  
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {

@@ -8,16 +8,15 @@ import { TimeTableService } from 'src/services/time-table.service';
 })
 export class SingleAnnounceComponent implements OnInit {
 
-  @Input() announceId: number;
-  
-  announceRecord: any;
+  @Input() addDate: Date;
+  @Input() announceContent: string;
+  @Input() piority: string;
+  @Input() kindOf: string;
+  @Input() announcingBy: string;
 
   constructor(private ttService: TimeTableService) {}
 
   ngOnInit(): void {
-    this.ttService.getSingleAnnounce(this.announceId).subscribe(x => {
-      this.announceRecord = x;
-    })
   }
 
 }

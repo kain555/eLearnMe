@@ -1,8 +1,14 @@
 <section class="content">
 <h1>Komunikaty szkolne</h1>
 <ul>
-    <li *ngFor="let announceId of arrayOfId">
-        <app-single-announce [announceId]="announceId"></app-single-announce>
+    <li *ngFor="let singleAnnounce of announceObj">
+        <app-single-announce 
+        [addDate]="singleAnnounce.addDate" 
+        [announceContent]="singleAnnounce.announceContent" 
+        [piority]="singleAnnounce.piority"
+        [kindOf]="singleAnnounce.kindOf"
+        [announcingBy]="singleAnnounce.announcingBy"
+        ></app-single-announce>
     </li>
   </ul>
 </section>

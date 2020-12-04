@@ -10,19 +10,18 @@ import { TimeTableService } from 'src/services/time-table.service';
 export class GalleryComponent {
 
   announceObj: any;
-  arrayOfId: Array<number>;
+  //arrayOfId: Array<number>;
   
   constructor(private ttService: TimeTableService) {
     this.ttService.getAnnounces(1).subscribe(x => {
       this.announceObj = x;
-      this.arrayOfId = this.announceObj.map(x => x.announceId);
+      //this.arrayOfId = this.announceObj.map(x => x.announceId);
     })
   }
 
   listOfAnnounce: any;
 
   ngOnInit(): void {
-     
   }
 
 }
