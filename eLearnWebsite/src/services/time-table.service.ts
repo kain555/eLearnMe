@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetTTByDisciple } from '../models/IGetTTByDisciple'
-import { School } from '../models/ISchool'
-import { Announce } from '../models/IAnnounce'
+import { GetTTByDisciple } from '../models/IGetTTByDisciple';
+import { School } from '../models/ISchool';
+import { Announce } from '../models/IAnnounce';
+import { CalendarData } from '../models/CalendarData';
 import { map } from 'rxjs/operators';
+import { Calendar } from '@fullcalendar/core';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +43,9 @@ export class TimeTableService {
 
   public getSingleAnnounce (announceId: number): Observable<Announce>{
     return this.http.get<Announce>(this.apiUrl + 'Announce/' + announceId);
+  }
+
+  public getCalendarData (classId: number): Observable<Array<CalendarData>>{
+    return this.http.get<Array<CalendarData>>(this.apiUrl + 'Calendar?classId=' + classId);
   }
 }
