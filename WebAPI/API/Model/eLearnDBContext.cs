@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace API.Model
 {
-
     public partial class eLearnDBContext : DbContext
     {
         private string connectionString;
@@ -35,6 +34,8 @@ namespace API.Model
         public virtual DbSet<Disciple> Disciples { get; set; }
         public virtual DbSet<DiscipleGradesAll> DiscipleGradesAlls { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
+        public virtual DbSet<GetCalendarByClassDw> GetCalendarByClassDws { get; set; }
+        public virtual DbSet<GetCalendarByClassId> GetCalendarByClassIds { get; set; }
         public virtual DbSet<GetGrade> GetGrades { get; set; }
         public virtual DbSet<GetTeachingStaff> GetTeachingStaffs { get; set; }
         public virtual DbSet<GetTimeTableDatum> GetTimeTableData { get; set; }
@@ -43,6 +44,8 @@ namespace API.Model
         public virtual DbSet<GradesIssued> GradesIssueds { get; set; }
         public virtual DbSet<LessonHour> LessonHours { get; set; }
         public virtual DbSet<LuckyNumber> LuckyNumbers { get; set; }
+        public virtual DbSet<Mark> Marks { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<RegisterDisciple> RegisterDisciples { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<School> Schools { get; set; }
@@ -53,6 +56,8 @@ namespace API.Model
         public virtual DbSet<TeachersClass> TeachersClasses { get; set; }
         public virtual DbSet<TeachersSubject> TeachersSubjects { get; set; }
         public virtual DbSet<TeachingStaff> TeachingStaffs { get; set; }
+        public virtual DbSet<Test> Tests { get; set; }
+        public virtual DbSet<TestQuestion> TestQuestions { get; set; }
         public virtual DbSet<TimeTable> TimeTables { get; set; }
         public virtual DbSet<TimeTableDatum> TimeTableData { get; set; }
 
@@ -324,6 +329,76 @@ namespace API.Model
                     .HasColumnName("name");
             });
 
+            modelBuilder.Entity<GetCalendarByClassDw>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("getCalendarByClassDW");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.DayOfWeekId).HasColumnName("day_of_week_id");
+
+                entity.Property(e => e.LessonHourE).HasColumnName("lessonHourE");
+
+                entity.Property(e => e.LessonHourS).HasColumnName("lessonHourS");
+
+                entity.Property(e => e.LessonMinuteE).HasColumnName("lessonMinuteE");
+
+                entity.Property(e => e.LessonMinuteS).HasColumnName("lessonMinuteS");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Note)
+                    .HasColumnType("text")
+                    .HasColumnName("note")
+                    .HasAnnotation("Relational:ColumnType", "text");
+
+                entity.Property(e => e.RoomId).HasColumnName("room_id");
+
+                entity.Property(e => e.SubjectName)
+                    .HasMaxLength(25)
+                    .HasColumnName("subjectName");
+
+                entity.Property(e => e.Surname)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("surname");
+
+                entity.Property(e => e.TimeTableId).HasColumnName("timeTableId");
+            });
+
+            modelBuilder.Entity<GetCalendarByClassId>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("getCalendarByClassID");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.LessonHourE).HasColumnName("lessonHourE");
+
+                entity.Property(e => e.LessonHourS).HasColumnName("lessonHourS");
+
+                entity.Property(e => e.LessonMinuteE).HasColumnName("lessonMinuteE");
+
+                entity.Property(e => e.LessonMinuteS).HasColumnName("lessonMinuteS");
+
+                entity.Property(e => e.Note)
+                    .HasColumnType("text")
+                    .HasColumnName("note")
+                    .HasAnnotation("Relational:ColumnType", "text");
+
+                entity.Property(e => e.SubjectName)
+                    .HasMaxLength(25)
+                    .HasColumnName("subjectName");
+
+                entity.Property(e => e.TimeTableId).HasColumnName("timeTableId");
+            });
+
             modelBuilder.Entity<GetGrade>(entity =>
             {
                 entity.HasNoKey();
@@ -546,6 +621,14 @@ namespace API.Model
             {
                 entity.Property(e => e.LessonHourId).HasColumnName("lesson_hour_id");
 
+                entity.Property(e => e.LessonHourEnd).HasColumnName("lesson_hour_end");
+
+                entity.Property(e => e.LessonHourStart).HasColumnName("lesson_hour_start");
+
+                entity.Property(e => e.LessonMinuteEnd).HasColumnName("lesson_minute_end");
+
+                entity.Property(e => e.LessonMinuteStart).HasColumnName("lesson_minute_start");
+
                 entity.Property(e => e.Name)
                     .HasMaxLength(20)
                     .HasColumnName("name");
@@ -568,6 +651,32 @@ namespace API.Model
                     .WithMany(p => p.LuckyNumbers)
                     .HasForeignKey(d => d.SchoolId)
                     .HasConstraintName("FK_Lucky_Numbers_Schools");
+            });
+
+            modelBuilder.Entity<Mark>(entity =>
+            {
+                entity.Property(e => e.MarkId).HasColumnName("mark_id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<Question>(entity =>
+            {
+                entity.Property(e => e.QuestionId).HasColumnName("question_id");
+
+                entity.Property(e => e.MarkId).HasColumnName("mark_id");
+
+                entity.Property(e => e.QuestionContent)
+                    .HasColumnType("text")
+                    .HasColumnName("question_content")
+                    .HasAnnotation("Relational:ColumnType", "text");
+
+                entity.HasOne(d => d.Mark)
+                    .WithMany(p => p.Questions)
+                    .HasForeignKey(d => d.MarkId)
+                    .HasConstraintName("FK_Questions_Marks");
             });
 
             modelBuilder.Entity<RegisterDisciple>(entity =>
@@ -814,6 +923,66 @@ namespace API.Model
                 entity.Property(e => e.TeacherSurname)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Test>(entity =>
+            {
+                entity.ToTable("Test");
+
+                entity.Property(e => e.TestId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("test_id");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasColumnName("create_date")
+                    .HasAnnotation("Relational:ColumnType", "date");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+                entity.HasOne(d => d.Teacher)
+                    .WithMany(p => p.Tests)
+                    .HasForeignKey(d => d.TeacherId)
+                    .HasConstraintName("FK_Test_Teachers");
+
+                entity.HasOne(d => d.TestNavigation)
+                    .WithOne(p => p.Test)
+                    .HasForeignKey<Test>(d => d.TestId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Test_Classes");
+            });
+
+            modelBuilder.Entity<TestQuestion>(entity =>
+            {
+                entity.HasKey(e => e.TqId);
+
+                entity.ToTable("Test_Questions");
+
+                entity.Property(e => e.TqId).HasColumnName("tq_id");
+
+                entity.Property(e => e.GoodAnswer).HasColumnName("good_answer");
+
+                entity.Property(e => e.Points).HasColumnName("points");
+
+                entity.Property(e => e.QuestionId).HasColumnName("question_id");
+
+                entity.Property(e => e.TestId).HasColumnName("test_id");
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.TestQuestions)
+                    .HasForeignKey(d => d.QuestionId)
+                    .HasConstraintName("FK_Test_Questions_Questions");
+
+                entity.HasOne(d => d.Test)
+                    .WithMany(p => p.TestQuestions)
+                    .HasForeignKey(d => d.TestId)
+                    .HasConstraintName("FK_Test_Questions_Test");
             });
 
             modelBuilder.Entity<TimeTable>(entity =>

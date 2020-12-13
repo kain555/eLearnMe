@@ -18,6 +18,7 @@ namespace API.Model
         public string Name { get; set; }
         public int? SchoolId { get; set; }
 
+        public virtual Test Test { get; set; }
         public virtual ICollection<Disciple> Disciples { get; set; }
         public virtual ICollection<TeachersClass> TeachersClasses { get; set; }
         public virtual ICollection<TimeTable> TimeTables { get; set; }

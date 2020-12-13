@@ -32,5 +32,21 @@ namespace API.Controllers
             return returnGrades.ToList();
         }
 
+        [HttpGet("AverageByDisciple")]
+        public string AverageByDisciple(int disciple_id)
+        {
+            var averageList = new List<double>();
+            for (var i = 1; i < 10; i++)
+            {
+                var gradesArray = _context.GradesIssueds.Where(x => x.SubjectId == i && x.DiscipleId == disciple_id).Select(x => x.GradeId).ToList();
+                if (gradesArray.Count != 0)
+                {
+                    averageList.Add((double)gradesArray.Average());
+                }
+            }
+            var average = averageList.Average();
+            return average.ToString("0.##");
+        }
+
     }
 }

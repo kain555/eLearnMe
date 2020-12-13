@@ -14,6 +14,10 @@ namespace API.Model
 
         public int LessonHourId { get; set; }
         public string Name { get; set; }
+        public int? LessonHourStart { get; set; }
+        public int? LessonMinuteStart { get; set; }
+        public int? LessonHourEnd { get; set; }
+        public int? LessonMinuteEnd { get; set; }
 
         public virtual ICollection<TimeTable> TimeTables { get; set; }
     }
