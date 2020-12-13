@@ -39,7 +39,7 @@
                 <div class="panel-body">
                   <full-calendar #calendar defaultView="listWeek" [header]="{
                                         left: 'title',
-                                        center: 'prev,next today',
+                                        center: '',
                                         right: 'timeGridWeek,timeGridDay,listWeek'  
                                       }" [plugins]="calendarPlugins" [weekends]="calendarWeekends"
                     (eventRender)="handleEventRender($event)" (eventClick)="eventClick($event)"

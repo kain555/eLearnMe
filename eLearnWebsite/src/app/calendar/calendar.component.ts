@@ -99,7 +99,6 @@ export class CalendarComponent implements OnInit {
         });
       });
       }
-      console.log(this.recordsCalendar);
       this.calendarEvents = this.recordsCalendar;
     });
   }
