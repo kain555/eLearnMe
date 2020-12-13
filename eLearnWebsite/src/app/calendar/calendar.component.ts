@@ -1,21 +1,31 @@
 import { Component, ViewChild, OnInit, TemplateRef } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { EventInput } from '@fullcalendar/core';
+import { EventInput, parseBusinessHours } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { formatDate } from '@angular/common';
 import { Calendar } from './calendar.model';
 import { MatRadioChange } from '@angular/material/radio';
 import { FormDialogComponent } from './dialogs/form-dialog/form-dialog.component';
 import { CalendarService } from './calendar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TimeTableService } from 'src/services/time-table.service';
+import { CalendarData } from '../../../src/models/CalendarData';
+
+export class cData {
+  id: number;
+  title: string;
+  start: Date;
+  end: Date;
+  className: string;
+  groupId: string;
+  details: string;
+}
 
 const d = new Date();
-const day = d.getDate();
 const month = d.getMonth();
 const year = d.getFullYear();
 
@@ -29,29 +39,32 @@ export class CalendarComponent implements OnInit {
   calendar: Calendar | null;
   public addCusForm: FormGroup;
   dialogTitle: string;
-  filterOptions = "All";
+  filterOptions = "Wszystkie";
   calendarData: any;
+  businessHours: true;
+  allCalendarRecords: any;
+  allWeek: any;
 
   public filters = [
-    { name: 'all', value: 'All', checked: 'true' },
-    { name: 'work', value: 'Work', checked: 'false' },
-    { name: 'personal', value: 'Personal', checked: 'false' },
-    { name: 'important', value: 'Important', checked: 'false' },
-    { name: 'travel', value: 'Travel', checked: 'false' },
-    { name: 'friends', value: 'Friends', checked: 'false' }
+    { name: 'all', value: 'Wszystkie', checked: 'true' },
+    { name: 'work', value: 'Matematyka', checked: 'false' },
+    { name: 'personal', value: 'Język Polski', checked: 'false' },
+    { name: 'important', value: 'Biologia', checked: 'false' },
+    { name: 'travel', value: 'Plastyka', checked: 'false' },
+    { name: 'friends', value: 'Fizyka', checked: 'false' }
   ];
-
-
 
   calendarVisible = true;
   calendarPlugins = [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin];
-  calendarWeekends = true;
+  calendarWeekends = false;
   @ViewChild('callAPIDialog', { static: false }) callAPIDialog: TemplateRef<any>;
-  calendarEvents: EventInput[];
+  calendarEvents: any;
+  allCalendarData: Array<cData>;
   tempEvents: EventInput[];
   todaysEvents: EventInput[];
 
   constructor(
+    private ttService: TimeTableService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     public calendarService: CalendarService,
@@ -59,19 +72,54 @@ export class CalendarComponent implements OnInit {
     this.dialogTitle = 'Add New Event';
     this.calendar = new Calendar({});
     this.addCusForm = this.createContactForm(this.calendar);
-
   }
 
-  public ngOnInit(): void {
-    console.log(new Date(year, month, 3, 5, 30));
-    this.calendarEvents = this.events();
+  recordsCalendar: cData[] = new Array();
+    public ngOnInit(): void {
+    this.getAllCalendarWeek();
+    //this.calendarEvents = this.events();
     this.tempEvents = this.calendarEvents;
-    // you can also get events from json file using following code
-    // this.calendarService.getAllCalendars().subscribe((data: Calendar[]) => {
-    //   this.calendarEvents = data;
-    // })
   }
 
+  getAllCalendarWeek() {
+    this.allCalendarRecords = this.ttService.getCalendarData(1).subscribe(x => {
+      this.allWeek = x;
+
+      for (let i = 0; i < this.allWeek.length; i++) {
+        let days = [7,14,21,28];
+        days.forEach(day => {
+        this.recordsCalendar.push({
+        id: this.allWeek[i].subjectName,
+        title: this.allWeek[i].subjectName,
+        start: new Date(year, month, this.allWeek[i].dayOfWeekId + day, this.allWeek[i].lessonHourS, this.allWeek[i].lessonMinuteS),
+        end: new Date(year, month, this.allWeek[i].dayOfWeekId + day, this.allWeek[i].lessonHourE, this.allWeek[i].lessonMinuteE),
+        className: "fc-event-warning",
+        groupId: "travel",
+        details: "Nauczyciel prowadzący lekcje: " + this.allWeek[i].name + " " + this.allWeek[i].surname,
+        });
+      });
+      }
+      console.log(this.recordsCalendar);
+      this.calendarEvents = this.recordsCalendar;
+    });
+  }
+
+  changeCategory(e: MatRadioChange) {
+    this.filterOptions = e.value;
+    console.log(e.value)
+    this.calendarEvents = this.tempEvents;
+    console.log(this.calendarEvents);
+    this.calendarEvents.forEach(function (element, index) {
+      if (this.filterOptions !== "all" && this.filterOptions.toLowerCase() !== element.groupId) {
+        this.filterEvent(element);
+      }
+    }, this);
+
+  }
+  filterEvent(element) {
+    this.calendarEvents = this.calendarEvents.filter(item => item !== element);
+  }
+  
   createContactForm(calendar): FormGroup {
     return this.fb.group({
       id: [calendar.id],
@@ -191,19 +239,7 @@ export class CalendarComponent implements OnInit {
     // console.log(info)
     // this.todaysEvents = this.todaysEvents.concat(info);
   }
-  changeCategory(e: MatRadioChange) {
-    this.filterOptions = e.value;
-    this.calendarEvents = this.tempEvents;
-    this.calendarEvents.forEach(function (element, index) {
-      if (this.filterOptions !== "all" && this.filterOptions.toLowerCase() !== element.groupId) {
-        this.filterEvent(element);
-      }
-    }, this);
-
-  }
-  filterEvent(element) {
-    this.calendarEvents = this.calendarEvents.filter(item => item !== element);
-  }
+  
   submit() {
     // emppty stuff
   }
@@ -217,18 +253,12 @@ export class CalendarComponent implements OnInit {
       panelClass: colorName,
     });
   }
-  public randomIDGenerate(length, chars) {
-    let result = "";
-    for (let i = length; i > 0; --i)
-      result += chars[Math.round(Math.random() * (chars.length - 1))];
-    return result;
-  }
   getClassNameValue(category) {
     let className: string;
 
-    if (category === "work")
+    if (category === "Matematyka")
       className = "fc-event-success"
-    else if (category === "personal")
+    else if (category === "Plastyka")
       className = "fc-event-warning"
     else if (category === "important")
       className = "fc-event-primary"
@@ -238,42 +268,6 @@ export class CalendarComponent implements OnInit {
       className = "fc-event-info"
 
     return className;
-  }
-  events() {
-    return [
-      {
-        id: "event1",
-        title: "All Day Event",
-        start: new Date(year, month, 1, 0, 0),
-        end: new Date(year, month, 1, 23, 59),
-        className: "fc-event-success",
-        groupId: "work",
-        details:
-          "Her extensive perceived may any sincerity extremity. Indeed add rather may pretty see.",
-      },
-      {
-        id: "event2",
-        title: "Break",
-        start: new Date(year, month, day + 28, 16, 0),
-        end: new Date(year, month, day + 29, 20, 0),
-        allDay: false,
-        className: "fc-event-primary",
-        groupId: "important",
-        details:
-          "Her extensive perceived may any sincerity extremity. Indeed add rather may pretty see. ",
-      },
-      {
-        id: "event3",
-        title: "Shopping",
-        start: new Date(year, month, day + 4, 12, 0),
-        end: new Date(year, month, day + 4, 20, 0),
-        allDay: false,
-        className: "fc-event-warning",
-        groupId: "personal",
-        details:
-          "Her extensive perceived may any sincerity extremity. Indeed add rather may pretty see. ",
-      }
-    ];
   }
 }
 
